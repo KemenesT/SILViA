@@ -24,14 +24,28 @@ You can install the development version of SILViA from
 devtools::install_github("KemenesT/SILViA")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+A fairly common task when dealing with strings is the need to split a
+single string into many parts. This is what `base::strplit()` and
+`stringr::str_split()` do.
 
 ``` r
-library(SILViA)
-## basic example code
+(x <- "alfa,bravo,charlie,delta")
+#> [1] "alfa,bravo,charlie,delta"
+strsplit(x, split = ",")
+#> [[1]]
+#> [1] "alfa"    "bravo"   "charlie" "delta"
+stringr::str_split(x, pattern = ",")
+#> [[1]]
+#> [1] "alfa"    "bravo"   "charlie" "delta"
 ```
+
+Notice how the return value is a **list** of length one, where the first
+element holds the character vector of parts. Often the shape of this
+output is inconvenient, i.e. we want the un-listed version.
+
+That’s exactly what `regexcite::str_split_one()` does.
 
 You can also embed plots, for example:
 
