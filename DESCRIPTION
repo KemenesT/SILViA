@@ -1,0 +1,18 @@
+Package: SILViA
+Type: Package
+Title: Identify, Label, and Visualize Incongruent Measurements in CTD Profiles
+Version: 0.1.0
+Authors@R: c(person(given = "Thomas", family = "Kemenes van Uden", email = "thomaskemenes@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0331-8538")), person(given = "Erik", family = "Meesters", role = "aut", comment = c(ORCID = "0000-0002-3877-1164")))
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+LazyData: true
+Imports: dplyr, grDevices, stats, utils, ggplot2, gridExtra
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
