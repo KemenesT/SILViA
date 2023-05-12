@@ -45,12 +45,12 @@ setup_example()
 
 # The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, and "54321" for a turbidity-measuring CTD can be seen in the temporary directory.
 list.files(tempdir(), pattern = ".vp2") 
-#> [1] "VL_12345_0000000000011ed04ac57c06.vp2"
-#> [2] "VL_12345_0000000000021ed06e459ca.vp2" 
-#> [3] "VL_12345_0000000000031ed03c6d4d49.vp2"
-#> [4] "VL_12345_0000000000041ed0cab65b7.vp2" 
-#> [5] "VL_12345_0000000000051ed067255a8b.vp2"
-#> [6] "VL_54321_0000000000061ed03aa46359.vp2"
+#> [1] "VL_12345_00000000000137b4439a39a7.vp2"
+#> [2] "VL_12345_00000000000237b4156b6690.vp2"
+#> [3] "VL_12345_00000000000337b447297312.vp2"
+#> [4] "VL_12345_00000000000437b47bd240b4.vp2"
+#> [5] "VL_12345_00000000000537b44f2d77ac.vp2"
+#> [6] "VL_54321_00000000000637b442b62f67.vp2"
 
 # Loading in the files from the CTD with ID "12345" can be done as:
 chlorophyll_CTD_data <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = "12345")
@@ -61,21 +61,21 @@ follows:
 
 |     | date       | time         | depth | pressure |       sv |   temp |    sal |     dens |   cond |  chla | filename                              |     lat |       lon |
 |:----|:-----------|:-------------|------:|---------:|---------:|-------:|-------:|---------:|-------:|------:|:--------------------------------------|--------:|----------:|
-| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
-| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
-| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
-| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
-| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
-| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
+| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
+| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
+| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
+| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
+| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_00000000000137b4439a39a7.vp2 | 30.5637 | -44.46387 |
 
 ``` r
 # Note that only files from the desired CTD were imported:
 unique(chlorophyll_CTD_data$filename)
-#> [1] "VL_12345_0000000000011ed04ac57c06.vp2"
-#> [2] "VL_12345_0000000000021ed06e459ca.vp2" 
-#> [3] "VL_12345_0000000000031ed03c6d4d49.vp2"
-#> [4] "VL_12345_0000000000041ed0cab65b7.vp2" 
-#> [5] "VL_12345_0000000000051ed067255a8b.vp2"
+#> [1] "VL_12345_00000000000137b4439a39a7.vp2"
+#> [2] "VL_12345_00000000000237b4156b6690.vp2"
+#> [3] "VL_12345_00000000000337b447297312.vp2"
+#> [4] "VL_12345_00000000000437b47bd240b4.vp2"
+#> [5] "VL_12345_00000000000537b44f2d77ac.vp2"
 
 # And that the data corresponds to chlorophyll measurements ("chla"):
 colnames(chlorophyll_CTD_data)
@@ -98,7 +98,7 @@ kind of data that it receives. Here we specify:
 - W = a depth window of 1m in which to consider the homogeneity of
   measurements.  
 - alpha = a significance level of 0.1% for determining when an unlikely
-  value is labeled as “incongruent”  
+  value is labeled as “incongruent”.  
 - type = “Chlorophyll” so that the function knows to expect input data
   contianig chlorophyll values.
 
@@ -136,7 +136,7 @@ directly if you want the labeled data frame and plots.
 
 ``` r
 # After running this line check your working directory for the "profiles.pdf" file!
-labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll")
+labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll", min.depth = 1.5)
 #> A pdf with profiles was created in directory: C:/Users/thoma/Documents/SILViA
 
 # To clear the pdf file created use the following line:
