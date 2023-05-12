@@ -27,7 +27,8 @@ You can install the development version of SILViA from [GitHub](https://github.c
 
 ```{r}
 # install.packages("devtools")
-devtools::install_github("KemenesT/SILViA")
+# devtools::install_github("KemenesT/SILViA")
+library(SILViA)
 ```
 
 ## Usage
@@ -101,6 +102,7 @@ unlink(paste0(getwd(), "/profiles.pdf"))
 The plots produced in the pdf look like this:
 
 ```{r echo=FALSE}
+library(ggplot2)
 draw_plot(data = labeled_data[labeled_data$filename == unique(labeled_data$filename)[2],],
           "chla") + ylab("depth (m)")
 ```
