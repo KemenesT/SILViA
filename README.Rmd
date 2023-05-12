@@ -47,19 +47,20 @@ list.files(tempdir(), pattern = ".vp2")
 
 # Loading in the files from the CTD with ID "12345" can be done as:
 chlorophyll_CTD_data <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = "12345")
-
-# All the five different files are stacked in a single data frame as follows:
-head(chlorophyll_CTD_data)
-
+```
+  
+All the five different files are stacked in a single data frame as follows:
+  
+```{r echo=FALSE}
+knitr::kable(head(chlorophyll_CTD_data))
+```
+  
+```{r}
 # Note that only files from the desired CTD were imported:
 unique(chlorophyll_CTD_data$filename)
 
 # And that the data corresponds to chlorophyll measurements ("chla"):
 colnames(chlorophyll_CTD_data)
-
-# Alternatively loading in the turbidity data results in the following columns:
-turbidity_CTD_data <- read_vp2(directory = tempdir(), type = "Turbidity", ID = "54321")
-colnames(turbidity_CTD_data)
 
 # To clear the temporary directory after using `setup_example()` use:
 unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
@@ -68,32 +69,33 @@ unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 ### Identifying Incongruent Points
 
 The function `label_incongruents()` takes data as produced by `read_vp2()` and adds two additional columns for every variable measured by the CTD. Therefore, it also requires as input and expectation of the kind of data that it receives. Here we specify:  
-df1 = The chlorophyll data imported in the example above.  
-W = a depth window of 1m in which to consider the homogeneity of measurements.  
-alpha = a significance level of 0.1% for determining when an unlikely value is labeled as "incongruent"  
-type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.  
+
+* df1 = The chlorophyll data imported in the example above.  
+* W = a depth window of 1m in which to consider the homogeneity of measurements.  
+* alpha = a significance level of 0.1% for determining when an unlikely value is labeled as "incongruent".  
+* type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.  
 
 ```{r}
 labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.001, type = "Chlorophyll")
 ```
 
-The resulting data-frame contains new columns indicating for each variable and each point whether it is labeled as incongruent ('Yes'/'No'), and the p-value on which this decision is based.
+The resulting data-frame contains new columns indicating for each variable and each point whether it is labeled as incongruent ('Yes'/'No'), and the p-value on which this decision is based. For example:
 
 ```{r echo=FALSE}
-head(labeled_data[,16:19])
+knitr::kable(head(labeled_data[,16:19]))
 ```
 
 ## Plotting Profiles
 
 Finally you can plot these results to visualize the labeled incongruents.  
 
-The function `plot_profiles()` creates a "profiles.pdf" file in the desired directory where each page contains plots for 6 variables recorded by a CTD in a single cast: sound velocity, temperature, salinity, density, conductivity, and either chlorohpyll-a or turbidity.  
+The function `plot_profiles()` creates a "profiles.pdf" file in the desired directory where each page contains plots for 6 variables recorded by a CTD in a single cast: sound velocity, temperature, salinity, density, conductivity, and either chlorophyll-a or turbidity.  
   
 Additionally, it outputs the data-frame with labeled incongruents used to create these plots. This means that you can use `plot_profiles()` directly if you want the labeled data frame and plots. 
 
 ```{r}
 # After running this line check your working directory for the "profiles.pdf" file!
-labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll")
+labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll", min.depth = 1.5)
 
 # To clear the pdf file created use the following line:
 unlink(paste0(getwd(), "/profiles.pdf"))
@@ -101,9 +103,9 @@ unlink(paste0(getwd(), "/profiles.pdf"))
 
 The plots produced in the pdf look like this:
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
 library(ggplot2)
-draw_plot(data = labeled_data[labeled_data$filename == unique(labeled_data$filename)[2],],
+draw_plot(data = labeled_data[labeled_data$filename == unique(labeled_data$filename)[1],],
           "chla") + ylab("depth (m)")
 ```
-Where the blue line is a moving average and red data points are those labeled to be incongruent.
+Here the blue line is a moving average and red data points are those labeled to be incongruent.

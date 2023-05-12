@@ -45,55 +45,43 @@ setup_example()
 
 # The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, and "54321" for a turbidity-measuring CTD can be seen in the temporary directory.
 list.files(tempdir(), pattern = ".vp2") 
-#> [1] "VL_12345_00000000000164606293c42.vp2" 
-#> [2] "VL_12345_0000000000026460244de4c.vp2" 
-#> [3] "VL_12345_00000000000364601f0d773b.vp2"
-#> [4] "VL_12345_000000000004646029a66772.vp2"
-#> [5] "VL_12345_000000000005646018214012.vp2"
-#> [6] "VL_54321_00000000000664603ccc66ae.vp2"
+#> [1] "VL_12345_0000000000011ed04ac57c06.vp2"
+#> [2] "VL_12345_0000000000021ed06e459ca.vp2" 
+#> [3] "VL_12345_0000000000031ed03c6d4d49.vp2"
+#> [4] "VL_12345_0000000000041ed0cab65b7.vp2" 
+#> [5] "VL_12345_0000000000051ed067255a8b.vp2"
+#> [6] "VL_54321_0000000000061ed03aa46359.vp2"
 
 # Loading in the files from the CTD with ID "12345" can be done as:
 chlorophyll_CTD_data <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = "12345")
+```
 
-# All the five different files are stacked in a single data frame as follows:
-head(chlorophyll_CTD_data)
-#>         date         time depth pressure       sv   temp    sal     dens   cond
-#> 2 2022/02/16 13:46:45.000 0.209    0.210 1540.338 26.882 36.408 1023.818 57.007
-#> 3 2022/02/16 13:46:45.469 0.301    0.302 1540.348 26.810 36.571 1023.964 57.154
-#> 4 2022/02/16 13:46:48.406 0.398    0.400 1540.321 26.689 36.804 1024.179 57.344
-#> 5 2022/02/16 13:46:50.313 0.500    0.503 1539.953 26.679 36.477 1023.936 56.880
-#> 6 2022/02/16 13:46:56.094 0.597    0.600 1539.909 26.670 36.453 1023.921 56.837
-#> 7 2022/02/16 13:46:56.906 0.702    0.706 1539.951 26.680 36.469 1023.930 56.871
-#>    chla                             filename     lat       lon
-#> 2 2.087 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
-#> 3 6.410 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
-#> 4 0.440 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
-#> 5 0.151 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
-#> 6 0.145 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
-#> 7 0.150 VL_12345_00000000000164606293c42.vp2 30.5637 -44.46387
+All the five different files are stacked in a single data frame as
+follows:
 
+|     | date       | time         | depth | pressure |       sv |   temp |    sal |     dens |   cond |  chla | filename                              |     lat |       lon |
+|:----|:-----------|:-------------|------:|---------:|---------:|-------:|-------:|---------:|-------:|------:|:--------------------------------------|--------:|----------:|
+| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_0000000000011ed04ac57c06.vp2 | 30.5637 | -44.46387 |
+
+``` r
 # Note that only files from the desired CTD were imported:
 unique(chlorophyll_CTD_data$filename)
-#> [1] "VL_12345_00000000000164606293c42.vp2" 
-#> [2] "VL_12345_0000000000026460244de4c.vp2" 
-#> [3] "VL_12345_00000000000364601f0d773b.vp2"
-#> [4] "VL_12345_000000000004646029a66772.vp2"
-#> [5] "VL_12345_000000000005646018214012.vp2"
+#> [1] "VL_12345_0000000000011ed04ac57c06.vp2"
+#> [2] "VL_12345_0000000000021ed06e459ca.vp2" 
+#> [3] "VL_12345_0000000000031ed03c6d4d49.vp2"
+#> [4] "VL_12345_0000000000041ed0cab65b7.vp2" 
+#> [5] "VL_12345_0000000000051ed067255a8b.vp2"
 
 # And that the data corresponds to chlorophyll measurements ("chla"):
 colnames(chlorophyll_CTD_data)
 #>  [1] "date"     "time"     "depth"    "pressure" "sv"       "temp"    
 #>  [7] "sal"      "dens"     "cond"     "chla"     "filename" "lat"     
 #> [13] "lon"
-
-# Alternatively loading in the turbidity data results in the following columns:
-turbidity_CTD_data <- read_vp2(directory = tempdir(), type = "Turbidity", ID = "54321")
-#> Warning in read_vp2(directory = tempdir(), type = "Turbidity", ID = "54321"):
-#> NAs introduced by coercion
-colnames(turbidity_CTD_data)
-#>  [1] "date"     "time"     "depth"    "pressure" "sv"       "temp"    
-#>  [7] "sal"      "dens"     "cond"     "neph"     "obs"      "turb"    
-#> [13] "filename" "lat"      "lon"
 
 # To clear the temporary directory after using `setup_example()` use:
 unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
@@ -104,14 +92,15 @@ unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 The function `label_incongruents()` takes data as produced by
 `read_vp2()` and adds two additional columns for every variable measured
 by the CTD. Therefore, it also requires as input and expectation of the
-kind of data that it receives. Here we specify:  
-df1 = The chlorophyll data imported in the example above.  
-W = a depth window of 1m in which to consider the homogeneity of
-measurements.  
-alpha = a significance level of 0.1% for determining when an unlikely
-value is labeled as “incongruent”  
-type = “Chlorophyll” so that the function knows to expect input data
-contianig chlorophyll values.
+kind of data that it receives. Here we specify:
+
+- df1 = The chlorophyll data imported in the example above.  
+- W = a depth window of 1m in which to consider the homogeneity of
+  measurements.  
+- alpha = a significance level of 0.1% for determining when an unlikely
+  value is labeled as “incongruent”  
+- type = “Chlorophyll” so that the function knows to expect input data
+  contianig chlorophyll values.
 
 ``` r
 labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.001, type = "Chlorophyll")
@@ -119,15 +108,17 @@ labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.
 
 The resulting data-frame contains new columns indicating for each
 variable and each point whether it is labeled as incongruent
-(‘Yes’/‘No’), and the p-value on which this decision is based.
+(‘Yes’/‘No’), and the p-value on which this decision is based. For
+example:
 
-    #>   incongruent_temp    pV_temp incongruent_sal       pV_sal
-    #> 2               No 0.01500358              No 0.8184679506
-    #> 3               No 0.14252570              No 0.3594200286
-    #> 4               No 0.67288420             Yes 0.0004519268
-    #> 5               No 0.67868816              No 0.6364871802
-    #> 6               No 0.70868005              No 0.7004968295
-    #> 7               No 0.64169484              No 0.6463253560
+|     | incongruent_temp |   pV_temp | incongruent_sal |    pV_sal |
+|:----|:-----------------|----------:|:----------------|----------:|
+| 2   | No               | 0.0150036 | No              | 0.8184680 |
+| 3   | No               | 0.1425257 | No              | 0.3594200 |
+| 4   | No               | 0.6728842 | Yes             | 0.0004519 |
+| 5   | No               | 0.6786882 | No              | 0.6364872 |
+| 6   | No               | 0.7086800 | No              | 0.7004968 |
+| 7   | No               | 0.6416948 | No              | 0.6463254 |
 
 ## Plotting Profiles
 
@@ -137,7 +128,7 @@ incongruents.
 The function `plot_profiles()` creates a “profiles.pdf” file in the
 desired directory where each page contains plots for 6 variables
 recorded by a CTD in a single cast: sound velocity, temperature,
-salinity, density, conductivity, and either chlorohpyll-a or turbidity.
+salinity, density, conductivity, and either chlorophyll-a or turbidity.
 
 Additionally, it outputs the data-frame with labeled incongruents used
 to create these plots. This means that you can use `plot_profiles()`
@@ -154,8 +145,6 @@ unlink(paste0(getwd(), "/profiles.pdf"))
 
 The plots produced in the pdf look like this:
 
-    #> Warning: Removed 4 rows containing missing values (`geom_point()`).
-
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
-Where the blue line is a moving average and red data points are those
-labeled to be incongruent.
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" /> Here
+the blue line is a moving average and red data points are those labeled
+to be incongruent.
