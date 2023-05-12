@@ -30,14 +30,21 @@ You can install the development version of SILViA from [GitHub](https://github.c
 devtools::install_github("KemenesT/SILViA")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+A fairly common task when dealing with strings is the need to split a single string into many parts.
+This is what `base::strplit()` and `stringr::str_split()` do.
 
-```{r example}
-library(SILViA)
-## basic example code
+```{r}
+(x <- "alfa,bravo,charlie,delta")
+strsplit(x, split = ",")
+stringr::str_split(x, pattern = ",")
 ```
+
+Notice how the return value is a **list** of length one, where the first element holds the character vector of parts.
+Often the shape of this output is inconvenient, i.e. we want the un-listed version.
+
+That's exactly what `regexcite::str_split_one()` does.
 
 You can also embed plots, for example:
 ```{r pressure, echo = FALSE}
