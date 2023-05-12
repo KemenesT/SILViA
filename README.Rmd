@@ -95,7 +95,8 @@ Additionally, it outputs the data-frame with labeled incongruents used to create
 
 ```{r}
 # After running this line check your working directory for the "profiles.pdf" file!
-labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll", min.depth = 1.5)
+labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, 
+                              alpha = 0.001, type = "Chlorophyll", min.depth = 1.5)
 
 # To clear the pdf file created use the following line:
 unlink(paste0(getwd(), "/profiles.pdf"))
