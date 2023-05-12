@@ -25,7 +25,7 @@ For this, the package includes a function to import and format .vp2 files, as we
 
 You can install the development version of SILViA from [GitHub](https://github.com/) with:
 
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("KemenesT/SILViA")
 ```
