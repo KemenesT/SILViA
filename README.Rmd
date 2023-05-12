@@ -39,14 +39,18 @@ The `read_vp2()` function is designed to read .vp2 files from SWIFT CTD devices.
 Files from different devices may thus be stored within the same directory without preventing the function from reading the correct data.
 
 ```{r}
-# This function uses the package data `ctdat` to create example .vp2 files in the temporary directory tempdir().
+# This function uses the package data `ctdat` to create example .vp2 files in 
+# the temporary directory tempdir().
 setup_example()
 
-# The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, and "54321" for a turbidity-measuring CTD can be seen in the temporary directory.
+# The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, 
+# and "54321" for a turbidity-measuring CTD can be seen in the temporary 
+# directory.
 list.files(tempdir(), pattern = ".vp2") 
 
 # Loading in the files from the CTD with ID "12345" can be done as:
-chlorophyll_CTD_data <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = "12345")
+chlorophyll_CTD_data <- read_vp2(directory = tempdir(), 
+                                 type = "Chlorophyll", ID = "12345")
 ```
   
 All the five different files are stacked in a single data frame as follows:
@@ -76,7 +80,8 @@ The function `label_incongruents()` takes data as produced by `read_vp2()` and a
 * type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.  
 
 ```{r}
-labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.001, type = "Chlorophyll")
+labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, 
+                                   alpha = 0.001, type = "Chlorophyll")
 ```
 
 The resulting data-frame contains new columns indicating for each variable and each point whether it is labeled as incongruent ('Yes'/'No'), and the p-value on which this decision is based. For example:
