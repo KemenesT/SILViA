@@ -40,42 +40,46 @@ Files from different devices may thus be stored within the same
 directory without preventing the function from reading the correct data.
 
 ``` r
-# This function uses the package data `ctdat` to create example .vp2 files in the temporary directory tempdir().
+# This function uses the package data `ctdat` to create example .vp2 files in 
+# the temporary directory tempdir().
 setup_example()
 
-# The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, and "54321" for a turbidity-measuring CTD can be seen in the temporary directory.
+# The temporary files with example IDs "12345" for a chlorophyll-measuring CTD, 
+# and "54321" for a turbidity-measuring CTD can be seen in the temporary 
+# directory.
 list.files(tempdir(), pattern = ".vp2") 
-#> [1] "VL_12345_00000000000159744963685.vp2" 
-#> [2] "VL_12345_00000000000259748a8358a.vp2" 
-#> [3] "VL_12345_00000000000359746790770d.vp2"
-#> [4] "VL_12345_000000000004597410754a26.vp2"
-#> [5] "VL_12345_000000000005597463ca1405.vp2"
-#> [6] "VL_54321_00000000000659741db1b4f.vp2"
+#> [1] "VL_12345_000000000001672435c158f8.vp2"
+#> [2] "VL_12345_000000000002672472cf60aa.vp2"
+#> [3] "VL_12345_00000000000367245b353fb4.vp2"
+#> [4] "VL_12345_00000000000467245891d93.vp2" 
+#> [5] "VL_12345_00000000000567243fce3763.vp2"
+#> [6] "VL_54321_0000000000066724637b14.vp2"
 
 # Loading in the files from the CTD with ID "12345" can be done as:
-chlorophyll_CTD_data <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = "12345")
+chlorophyll_CTD_data <- read_vp2(directory = tempdir(), 
+                                 type = "Chlorophyll", ID = "12345")
 ```
 
 All the five different files are stacked in a single data frame as
 follows:
 
-|     | date       | time         | depth | pressure |       sv |   temp |    sal |     dens |   cond |  chla | filename                             |     lat |       lon |
-|:----|:-----------|:-------------|------:|---------:|---------:|-------:|-------:|---------:|-------:|------:|:-------------------------------------|--------:|----------:|
-| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
-| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
-| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
-| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
-| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
-| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_00000000000159744963685.vp2 | 30.5637 | -44.46387 |
+|     | date       | time         | depth | pressure |       sv |   temp |    sal |     dens |   cond |  chla | filename                              |     lat |       lon |
+|:----|:-----------|:-------------|------:|---------:|---------:|-------:|-------:|---------:|-------:|------:|:--------------------------------------|--------:|----------:|
+| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
+| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
+| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
+| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
+| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
+| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_000000000001672435c158f8.vp2 | 30.5637 | -44.46387 |
 
 ``` r
 # Note that only files from the desired CTD were imported:
 unique(chlorophyll_CTD_data$filename)
-#> [1] "VL_12345_00000000000159744963685.vp2" 
-#> [2] "VL_12345_00000000000259748a8358a.vp2" 
-#> [3] "VL_12345_00000000000359746790770d.vp2"
-#> [4] "VL_12345_000000000004597410754a26.vp2"
-#> [5] "VL_12345_000000000005597463ca1405.vp2"
+#> [1] "VL_12345_000000000001672435c158f8.vp2"
+#> [2] "VL_12345_000000000002672472cf60aa.vp2"
+#> [3] "VL_12345_00000000000367245b353fb4.vp2"
+#> [4] "VL_12345_00000000000467245891d93.vp2" 
+#> [5] "VL_12345_00000000000567243fce3763.vp2"
 
 # And that the data corresponds to chlorophyll measurements ("chla"):
 colnames(chlorophyll_CTD_data)
@@ -103,7 +107,8 @@ kind of data that it receives. Here we specify:
   contianig chlorophyll values.
 
 ``` r
-labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.001, type = "Chlorophyll")
+labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, 
+                                   alpha = 0.001, type = "Chlorophyll")
 ```
 
 The resulting data-frame contains new columns indicating for each
