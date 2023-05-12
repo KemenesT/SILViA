@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of SILViA is to provide a method to identify outlying points recorded by a CTD device along a depth profile, which are not congruent with the range of measurements taken in the surrounding water column. These are labeled as "incongruent" points.
+The goal of SILViA is to provide a method to identify outlying points recorded by a CTD device along a depth profile, which are not congruent with the range of measurements taken in the surrounding water column. These are labeled as "incongruent" points.  
 For this, the package includes a function to import and format .vp2 files, as well as functions to visualize depth profiles and the incongruent points they contain. 
 
 ## Installation
@@ -33,7 +33,8 @@ devtools::install_github("KemenesT/SILViA")
 ## Usage
 
 ### Reading .vp2 files
-The `read_vp2()` function is designed to read .vp2 files from SWIFT CTD devices. The content of these files differs depending on whether the device measures turbidity data or chlorophyll (through fluorescence). Thus the function takes as input a directory to read files from, the content that can be expected in the files, and the ID of the device. This last input is recorded in the file name produced by a SWIFT device. 
+
+The `read_vp2()` function is designed to read .vp2 files from SWIFT CTD devices. The content of these files differs depending on whether the device measures turbidity data or chlorophyll (through fluorescence). Thus the function takes as input a directory to read files from, the content that can be expected in the files, and the ID of the device. This last input is recorded in the file name produced by a SWIFT device.   
 Files from different devices may thus be stored within the same directory without preventing the function from reading the correct data.
 
 ```{r}
@@ -64,26 +65,31 @@ unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 ```
 
 ### Identifying Incongruent Points
-The function `label_incongruents()` takes data as produced by `read_vp2()` and adds two additional columns for every variable measured by the CTD. Therefore, it also requires as input and expectation of the kind of data that it receives. Here we specify:
-df1 = The chlorophyll data imported in the example above.
-W = a depth window of 1m in which to consider the homogeneity of measurements.
-alpha = a significance level of 0.1% for determining when an unlikely value is labeled as "incongruent"
-type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.
+
+The function `label_incongruents()` takes data as produced by `read_vp2()` and adds two additional columns for every variable measured by the CTD. Therefore, it also requires as input and expectation of the kind of data that it receives. Here we specify:  
+df1 = The chlorophyll data imported in the example above.  
+W = a depth window of 1m in which to consider the homogeneity of measurements.  
+alpha = a significance level of 0.1% for determining when an unlikely value is labeled as "incongruent"  
+type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.  
+
 ```{r}
 labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, alpha = 0.001, type = "Chlorophyll")
 ```
 
 The resulting data-frame contains new columns indicating for each variable and each point whether it is labeled as incongruent ('Yes'/'No'), and the p-value on which this decision is based.
+
 ```{r echo=FALSE}
 head(labeled_data[,16:19])
 ```
 
 ## Plotting Profiles
-Finally you can plot these results to visualize the labeled incongruents. 
+
+Finally you can plot these results to visualize the labeled incongruents.  
 
 The function `plot_profiles()` creates a "profiles.pdf" file in the desired directory where each page contains plots for 6 variables recorded by a CTD in a single cast: sound velocity, temperature, salinity, density, conductivity, and either chlorohpyll-a or turbidity.  
   
 Additionally, it outputs the data-frame with labeled incongruents used to create these plots. This means that you can use `plot_profiles()` directly if you want the labeled data frame and plots. 
+
 ```{r}
 # After running this line check your working directory for the "profiles.pdf" file!
 labeled_data <- plot_profiles(data = chlorophyll_CTD_data, width = 1, alpha = 0.001, type = "Chlorophyll")
@@ -93,6 +99,7 @@ unlink(paste0(getwd(), "/profiles.pdf"))
 ```
 
 The plots produced in the pdf look like this:
+
 ```{r echo=FALSE}
 draw_plot(data = labeled_data[labeled_data$filename == unique(labeled_data$filename)[2],],
           "chla") + ylab("depth (m)")
