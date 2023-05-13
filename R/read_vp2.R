@@ -27,7 +27,7 @@
 #' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
-#' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
+#' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
 #'
 read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
   files <- sort(dir(path = directory, pattern = ".vp2"))
@@ -55,7 +55,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
     fn <- files[i]
     if (substr(fn,
                nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID) {
-      lns <- readLines(paste0(directory, "\\", fn))
+      lns <- readLines(paste0(directory, "/", fn))
       if (length(lns) > 58) {
         if (is.na(as.numeric(strsplit(lns[27], "=")[[1]][2]))) {
           lat <- as.numeric(strsplit(gsub(",", ".", lns[27]), "=")[[1]][2])
@@ -109,7 +109,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
 #' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
-#' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
+#' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
 #'
 setup_example <- function() {
   VL_12345_000000000001.vp2 <- tempfile("VL_12345_000000000001",
