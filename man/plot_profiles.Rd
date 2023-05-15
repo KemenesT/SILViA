@@ -72,11 +72,12 @@ casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 ## plots:
 output <- plot_profiles(
   data = casts, width = 1, alpha = 0.0001,
-  type = "Chlorophyll", min.depth = 1.5
+  type = "Chlorophyll", min.depth = 1.5,
+  directory = tempdir()
 )
 
 ## To delete the example pdf you can run the following:
-unlink(paste0(getwd(), "/profiles.pdf"))
+unlink(paste0(tempdir(), "/profiles.pdf"))
 
 ## To clear the temporary directory after using 'setup_example()':
 unlink(paste0(tempdir(), "\\\\", list.files(tempdir(), pattern = ".vp2")))

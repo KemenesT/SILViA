@@ -1,5 +1,6 @@
 test_that("read_vp2 reads files correctly", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   output <- read_vp2(tempdir(), type = "Chlorophyll", ID = 12345)
   expect_s3_class(output, class = "data.frame")
@@ -34,7 +35,8 @@ test_that("read_vp2 reads files correctly", {
 
 test_that("setup_example stores the example files in the temporary directory", {
   expect_type(ctdat, "list")
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   expect_gt(length(sort(dir(path = tempdir(), pattern = ".vp2"))), 3)
   expect_identical(ctdat[[1]],

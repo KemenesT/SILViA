@@ -1,5 +1,6 @@
 test_that("ggplot objects are returned", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -18,7 +19,8 @@ test_that("ggplot objects are returned", {
 })
 
 test_that("plot_profiles returns the same output as label_incongruents", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -54,7 +56,8 @@ test_that("plot_profiles returns the same output as label_incongruents", {
 })
 
 test_that("plot_profiles with 'any' returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -81,7 +84,8 @@ test_that("plot_profiles with 'any' returns plots", {
 })
 
 test_that("plot_profiles with 'all' returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -108,7 +112,8 @@ test_that("plot_profiles with 'all' returns plots", {
 })
 
 test_that("plot_profiles with a specific variable returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100

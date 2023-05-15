@@ -1,5 +1,6 @@
 test_that("the incongruence test returns expected structure", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 
@@ -25,7 +26,8 @@ test_that("the incongruence test returns expected structure", {
 })
 
 test_that("the incongruence test returns expected structure", {
-  on.exit(unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(tempdir(), "\\",
+                        list.files(tempdir(), pattern = ".vp2"))))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts <- data.frame(casts,

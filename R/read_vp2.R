@@ -57,7 +57,9 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
                nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID) {
       lns <- readLines(paste0(directory, "/", fn))
       if (length(lns) > 58) {
-        if (is.na(as.numeric(strsplit(lns[27], "=")[[1]][2]))) {
+        if (suppressWarnings(
+            is.na(as.numeric(strsplit(lns[27], "=")[[1]][2])))
+            ) {
           lat <- as.numeric(strsplit(gsub(",", ".", lns[27]), "=")[[1]][2])
           lon <- as.numeric(strsplit(gsub(",", ".", lns[28]), "=")[[1]][2])
         } else {
@@ -69,14 +71,14 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
           if (type == "Chlorophyll") {
             if ("try-error" %in%
                 class(try(read.table(paste0(directory, "/", fn), skip = 56)))) {
-      stop("Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
+        stop("Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
            call. = FALSE)
             }
             d <- read.table(paste0(directory, "/", fn), skip = 56)
           } else if (type == "Turbidity") {
             d <- read.table(paste0(directory, "/", fn), skip = 58)
             if (length(names(d)) != length(nms)) {
-              stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
+        stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
                    call. = FALSE)
             }
           }

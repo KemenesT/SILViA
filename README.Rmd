@@ -77,7 +77,7 @@ The function `label_incongruents()` takes data as produced by `read_vp2()` and a
 * df1 = The chlorophyll data imported in the example above.  
 * W = a depth window of 1m in which to consider the homogeneity of measurements.  
 * alpha = a significance level of 0.1% for determining when an unlikely value is labeled as "incongruent".  
-* type = "Chlorophyll" so that the function knows to expect input data contianig chlorophyll values.  
+* type = "Chlorophyll" so that the function knows to expect input data containing chlorophyll values.  
 
 ```{r}
 labeled_data <- label_incongruents(df1 = chlorophyll_CTD_data, W = 1, 
