@@ -1,20 +1,19 @@
 Package: SILViA
 Type: Package
-Title: Identify, Label, and Visualize Incongruent Measurements in CTD Profiles
+Title: Sample Incongruents Labeling and Visualization Approach
 Version: 0.1.0
 Authors@R: c(
       person(given = "Thomas", family = "Kemenes van Uden", 
-      email = "thomaskemenes@gmail.com", role = c("aut", "cre"), 
+      email = "thomaskemenes@gmail.com", role = c("aut", "cre", "cph"), 
       comment = c(ORCID = "0000-0002-0331-8538")), 
       person(given = "Erik", family = "Meesters", role = "aut", 
       comment = c(ORCID = "0000-0002-3877-1164")))
-Description: The goal of SILViA is to provide a method to identify outlying 
-  points recorded by a CTD device along a depth profile, which are not 
+Description: Method to identify outlying points recorded by a Conductivity, 
+  Temperature, and Depth (CTD) meter along a depth profile, which are not 
   congruent with the range of measurements taken in the surrounding water 
-  column. These are labeled as "incongruent" points.
-  For this, the package includes a function to import and format .vp2 files, as 
-  well as functions to visualize depth profiles and the incongruent points they 
-  contain. 
+  column. These are labeled as incongruent points. For this, the package 
+  includes a function to import and format .vp2 files, as well as functions to 
+  visualize depth profiles and the incongruent points they contain. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
