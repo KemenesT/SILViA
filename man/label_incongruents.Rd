@@ -52,7 +52,7 @@ casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 
 ## Label incongruents in the imported data:
 output <- label_incongruents(
-  df1 = casts, W = 1, alpha = 0.0001,
+  df1 = casts, W = 0.6, alpha = 0.0001,
   type = "Chlorophyll"
 )
 

@@ -69,13 +69,13 @@ setup_example()
 casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 
 ## Select a few samples to plot quickly:
-selected_files <- unique(casts$filename)[3:5]
+selected_files <- unique(casts$filename)[3:4]
 casts <- casts[which(casts$filename \%in\% selected_files),]
 
 ## Label incongruents in the imported data and create a pdf with appropriate
 ## plots:
 output <- plot_profiles(
-  data = casts, width = 1, alpha = 0.0001,
+  data = casts, width = 0.6, alpha = 0.001,
   type = "Chlorophyll", min.depth = 1.5,
   directory = tempdir()
 )
