@@ -58,6 +58,10 @@
 #' ## Read the example casts:
 #' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 #'
+#' ## Select a few samples to plot quickly:
+#' selected_files <- unique(casts$filename)[3:5]
+#' casts <- casts[which(casts$filename %in% selected_files),]
+#'
 #' ## Label incongruents in the imported data and create a pdf with appropriate
 #' ## plots:
 #' output <- plot_profiles(
@@ -206,18 +210,18 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #' ## Read the example casts:
 #' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
 #'
-#' ## Label incongruents in the imported data:
+#' ## Select the data for one file:
+#' selected_filename <- unique(casts$filename)[5]
+#' single_file <- casts[which(casts$filename == selected_filename), ]
+#'
+#' ## Label incongruents in the data:
 #' output <- label_incongruents(
-#'   df1 = casts, W = 0.6, alpha = 0.001,
+#'   df1 = single_file, W = 1, alpha = 0.0001,
 #'   type = "Chlorophyll"
 #' )
 #'
-#' ## Select the data for one file:
-#' selected_filename <- unique(output$filename)[1]
-#' single_file <- output[which(output$filename == selected_filename), ]
-#'
 #' ## Plot a single profile:
-#' draw_plot(var = "temp", data = single_file)
+#' draw_plot(var = "chla", data = output)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
