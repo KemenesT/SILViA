@@ -2,21 +2,21 @@
 
 ── SILViA 0.1.0: NOTE
 
-  Build ID:   SILViA_0.1.0.tar.gz-10056936b183409e967b768c18443db2
+  Build ID:   SILViA_0.1.0.tar.gz-83bb1cb944df4c3fbc39f64b9277db86
   Platform:   Windows Server 2022, R-devel, 64 bit
-  Submitted:  4m 22.6s ago
-  Build time: 4m 0.9s
+  Submitted:  6m 12.9s ago
+  Build time: 4m 0.7s
 
-❯ checking CRAN incoming feasibility ... [12s] NOTE
-  Maintainer: 'Thomas Kemenes van Uden <thomaskemenes@gmail.com>'
+❯ checking CRAN incoming feasibility ... [11s] NOTE
   
   New submission
   
   Possibly misspelled words in DESCRIPTION:
-    CTD (12:27)
+    CTD (12:43)
     Incongruents (3:15)
-    incongruent (14:32, 16:36)
-    vp (15:45)
+    incongruent (14:59, 17:5)
+    vp (16:6)
+  Maintainer: 'Thomas Kemenes van Uden <thomaskemenes@gmail.com>'
 
 ❯ checking for non-standard things in the check directory ... NOTE
   Found the following files/directories:
@@ -28,15 +28,15 @@
 
 0 errors ✔ | 0 warnings ✔ | 3 notes ✖
 
-── SILViA 0.1.0: CREATED
+── SILViA 0.1.0: IN-PROGRESS
 
-  Build ID:   SILViA_0.1.0.tar.gz-424ae6f05cca4502ab40c7c31a23af1b
+  Build ID:   SILViA_0.1.0.tar.gz-fc8c062329ac4c6082a21ebeab6f5c96
   Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  Submitted:  4m 22.7s ago
+  Submitted:  6m 12.9s ago
 
 
-── SILViA 0.1.0: CREATED
+── SILViA 0.1.0: IN-PROGRESS
 
-  Build ID:   SILViA_0.1.0.tar.gz-b3ef2f89472c455b924940e314fc600b
+  Build ID:   SILViA_0.1.0.tar.gz-4afccc827a46497ea514ef4b3d9c9f62
   Platform:   Fedora Linux, R-devel, clang, gfortran
-  Submitted:  4m 22.7s ago
+  Submitted:  6m 13s ago

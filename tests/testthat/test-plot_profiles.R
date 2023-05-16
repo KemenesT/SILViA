@@ -1,6 +1,8 @@
 test_that("ggplot objects are returned", {
-  on.exit(unlink(paste0(tempdir(), "\\",
-                        list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(
+    tempdir(), "\\",
+    list.files(tempdir(), pattern = ".vp2")
+  )))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -8,19 +10,21 @@ test_that("ggplot objects are returned", {
     df1 = casts, W = 1, alpha = 0.0001,
     type = "Chlorophyll"
   )
-  output <- output[output$filename == unique(output$filename)[1],]
+  output <- output[output$filename == unique(output$filename)[1], ]
   p <- draw_plot("chla", output)
 
   expect_s3_class(p$layers[[1]], "gg")
-  expect_identical(class(p$layers[[1]]$mapping$x), c("quosure","formula"))
-  expect_identical(class(p$layers[[1]]$mapping$y), c("quosure","formula"))
+  expect_identical(class(p$layers[[1]]$mapping$x), c("quosure", "formula"))
+  expect_identical(class(p$layers[[1]]$mapping$y), c("quosure", "formula"))
   expect_identical(p$labels$title, "chla")
   expect_no_error(print(p))
 })
 
 test_that("plot_profiles returns the same output as label_incongruents", {
-  on.exit(unlink(paste0(tempdir(), "\\",
-                        list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(
+    tempdir(), "\\",
+    list.files(tempdir(), pattern = ".vp2")
+  )))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -56,8 +60,10 @@ test_that("plot_profiles returns the same output as label_incongruents", {
 })
 
 test_that("plot_profiles with 'any' returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\",
-                        list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(
+    tempdir(), "\\",
+    list.files(tempdir(), pattern = ".vp2")
+  )))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -84,8 +90,10 @@ test_that("plot_profiles with 'any' returns plots", {
 })
 
 test_that("plot_profiles with 'all' returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\",
-                        list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(
+    tempdir(), "\\",
+    list.files(tempdir(), pattern = ".vp2")
+  )))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
@@ -112,8 +120,10 @@ test_that("plot_profiles with 'all' returns plots", {
 })
 
 test_that("plot_profiles with a specific variable returns plots", {
-  on.exit(unlink(paste0(tempdir(), "\\",
-                        list.files(tempdir(), pattern = ".vp2"))))
+  on.exit(unlink(paste0(
+    tempdir(), "\\",
+    list.files(tempdir(), pattern = ".vp2")
+  )))
   setup_example()
   casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
   casts$temp[10] <- 100
