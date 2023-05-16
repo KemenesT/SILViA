@@ -114,28 +114,28 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
 #' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
 #'
 setup_example <- function() {
-  VL_12345_000000000001.vp2 <- tempfile("VL_12345_000000000001",
+  file1 <- tempfile("VL_12345_000000000001",
     fileext = ".vp2"
   )
-  VL_12345_000000000002.vp2 <- tempfile("VL_12345_000000000002",
+  file2 <- tempfile("VL_12345_000000000002",
     fileext = ".vp2"
   )
-  VL_12345_000000000003.vp2 <- tempfile("VL_12345_000000000003",
+  file3 <- tempfile("VL_12345_000000000003",
     fileext = ".vp2"
   )
-  VL_12345_000000000004.vp2 <- tempfile("VL_12345_000000000004",
+  file4 <- tempfile("VL_12345_000000000004",
     fileext = ".vp2"
   )
-  VL_12345_000000000005.vp2 <- tempfile("VL_12345_000000000005",
+  file5 <- tempfile("VL_12345_000000000005",
     fileext = ".vp2"
   )
-  VL_54321_000000000006.vp2 <- tempfile("VL_54321_000000000006",
+  file6 <- tempfile("VL_54321_000000000006",
     fileext = ".vp2"
   )
-  writeLines(ctdat[[1]], con = VL_12345_000000000001.vp2)
-  writeLines(ctdat[[2]], con = VL_12345_000000000002.vp2)
-  writeLines(ctdat[[3]], con = VL_12345_000000000003.vp2)
-  writeLines(ctdat[[4]], con = VL_12345_000000000004.vp2)
-  writeLines(ctdat[[5]], con = VL_12345_000000000005.vp2)
-  writeLines(ctdat[[6]], con = VL_54321_000000000006.vp2)
+  writeLines(ctdat[[1]], con = file1)
+  writeLines(ctdat[[2]], con = file2)
+  writeLines(ctdat[[3]], con = file3)
+  writeLines(ctdat[[4]], con = file4)
+  writeLines(ctdat[[5]], con = file5)
+  writeLines(ctdat[[6]], con = file6)
 }
