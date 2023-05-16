@@ -57,7 +57,7 @@ test_that("setup_example stores the example files in the temporary directory", {
   expect_identical(
     ctdat[[1]],
     readLines(paste0(
-      tempdir(), "\\",
+      tempdir(), "/",
       sort(dir(
         path = tempdir(),
         pattern = ".vp2"
