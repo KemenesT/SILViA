@@ -95,7 +95,7 @@ The resulting data-frame contains new columns indicating for each variable and e
 knitr::kable(head(labeled_data[,16:19]))
 ```
 
-## Plotting Profiles
+### Plotting Profiles
 
 Finally you can plot these results to visualize the labeled incongruents.  
 
@@ -119,4 +119,5 @@ library(ggplot2)
 draw_plot(data = labeled_data[labeled_data$filename == unique(labeled_data$filename)[1],],
           "chla") + ylab("depth (m)")
 ```
+  
 Here the blue line is a moving average and red data points are those labeled to be incongruent.

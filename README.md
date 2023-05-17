@@ -1,15 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SILViA
+# SILViA: Sample Incongruents Labeling and Visualization Approach
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 The goal of SILViA is to provide a method to identify outlying points
-recorded by a CTD device along a depth profile, which are not congruent
-with the range of measurements taken in the surrounding water column.
-These are labeled as “incongruent” points.  
+recorded by a [Valeport](https://www.valeport.co.uk) CTD device along a
+depth profile, which are not congruent with the range of measurements
+taken in the surrounding water column. These are labeled as
+“incongruent” points.  
 For this, the package includes a function to import and format .vp2
 files, as well as functions to visualize depth profiles and the
 incongruent points they contain.
@@ -20,8 +21,8 @@ You can install the development version of SILViA from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-# devtools::install_github("KemenesT/SILViA")
+install.packages("devtools")
+devtools::install_github("KemenesT/SILViA")
 library(SILViA)
 ```
 
@@ -29,13 +30,13 @@ library(SILViA)
 
 ### Reading .vp2 files
 
-The `read_vp2()` function is designed to read .vp2 files from SWIFT CTD
-devices. The content of these files differs depending on whether the
-device measures turbidity data or chlorophyll (through fluorescence).
-Thus the function takes as input a directory to read files from, the
-content that can be expected in the files, and the ID of the device.
-This last input is recorded in the file name produced by a SWIFT
-device.  
+The `read_vp2()` function is designed to read .vp2 files from Valeport
+SWIFT CTD devices. The content of these files differs depending on
+whether the device measures turbidity data or chlorophyll (through
+fluorescence). Thus the function takes as input a directory to read
+files from, the content that can be expected in the files, and the ID of
+the device. This last input is recorded in the file name produced by a
+SWIFT device.  
 Files from different devices may thus be stored within the same
 directory without preventing the function from reading the correct data.
 
@@ -48,12 +49,12 @@ setup_example()
 # and "54321" for a turbidity-measuring CTD can be seen in the temporary 
 # directory.
 list.files(tempdir(), pattern = ".vp2") 
-#> [1] "VL_12345_000000000001652c71e05f8d.vp2"
-#> [2] "VL_12345_000000000002652c66ac73c7.vp2"
-#> [3] "VL_12345_000000000003652c6c404ded.vp2"
-#> [4] "VL_12345_000000000004652c84d38e8.vp2" 
-#> [5] "VL_12345_000000000005652c4e1470b.vp2" 
-#> [6] "VL_54321_000000000006652c6a666e7f.vp2"
+#> [1] "VL_12345_00000000000134f05b326491.vp2"
+#> [2] "VL_12345_00000000000234f049243a3.vp2" 
+#> [3] "VL_12345_00000000000334f06edf22ce.vp2"
+#> [4] "VL_12345_00000000000434f059492575.vp2"
+#> [5] "VL_12345_00000000000534f07ece5318.vp2"
+#> [6] "VL_54321_00000000000634f027662068.vp2"
 
 # Loading in the files from the CTD with ID "12345" can be done as:
 chlorophyll_CTD_data <- read_vp2(directory = tempdir(), 
@@ -65,21 +66,21 @@ follows:
 
 |     | date       | time         | depth | pressure |       sv |   temp |    sal |     dens |   cond |  chla | filename                              |     lat |       lon |
 |:----|:-----------|:-------------|------:|---------:|---------:|-------:|-------:|---------:|-------:|------:|:--------------------------------------|--------:|----------:|
-| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
-| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
-| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
-| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
-| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
-| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_000000000001652c71e05f8d.vp2 | 30.5637 | -44.46387 |
+| 2   | 2022/02/16 | 13:46:45.000 | 0.209 |    0.210 | 1540.338 | 26.882 | 36.408 | 1023.818 | 57.007 | 2.087 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
+| 3   | 2022/02/16 | 13:46:45.469 | 0.301 |    0.302 | 1540.348 | 26.810 | 36.571 | 1023.964 | 57.154 | 6.410 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
+| 4   | 2022/02/16 | 13:46:48.406 | 0.398 |    0.400 | 1540.321 | 26.689 | 36.804 | 1024.179 | 57.344 | 0.440 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
+| 5   | 2022/02/16 | 13:46:50.313 | 0.500 |    0.503 | 1539.953 | 26.679 | 36.477 | 1023.936 | 56.880 | 0.151 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
+| 6   | 2022/02/16 | 13:46:56.094 | 0.597 |    0.600 | 1539.909 | 26.670 | 36.453 | 1023.921 | 56.837 | 0.145 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
+| 7   | 2022/02/16 | 13:46:56.906 | 0.702 |    0.706 | 1539.951 | 26.680 | 36.469 | 1023.930 | 56.871 | 0.150 | VL_12345_00000000000134f05b326491.vp2 | 30.5637 | -44.46387 |
 
 ``` r
 # Note that only files from the desired CTD were imported:
 unique(chlorophyll_CTD_data$filename)
-#> [1] "VL_12345_000000000001652c71e05f8d.vp2"
-#> [2] "VL_12345_000000000002652c66ac73c7.vp2"
-#> [3] "VL_12345_000000000003652c6c404ded.vp2"
-#> [4] "VL_12345_000000000004652c84d38e8.vp2" 
-#> [5] "VL_12345_000000000005652c4e1470b.vp2"
+#> [1] "VL_12345_00000000000134f05b326491.vp2"
+#> [2] "VL_12345_00000000000234f049243a3.vp2" 
+#> [3] "VL_12345_00000000000334f06edf22ce.vp2"
+#> [4] "VL_12345_00000000000434f059492575.vp2"
+#> [5] "VL_12345_00000000000534f07ece5318.vp2"
 
 # And that the data corresponds to chlorophyll measurements ("chla"):
 colnames(chlorophyll_CTD_data)
@@ -125,7 +126,7 @@ example:
 | 6   | No               | 0.7086800 | No              | 0.7004968 |
 | 7   | No               | 0.6416948 | No              | 0.6463254 |
 
-## Plotting Profiles
+### Plotting Profiles
 
 Finally you can plot these results to visualize the labeled
 incongruents.
@@ -151,6 +152,7 @@ unlink(paste0(getwd(), "/profiles.pdf"))
 
 The plots produced in the pdf look like this:
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" /> Here
-the blue line is a moving average and red data points are those labeled
-to be incongruent.
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+Here the blue line is a moving average and red data points are those
+labeled to be incongruent.
