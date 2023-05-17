@@ -1,5 +1,6 @@
 ---
 output: github_document
+urlcolor: blue
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -13,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SILViA
+# SILViA: Sample Incongruents Labeling and Visualization Approach
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -25,9 +26,13 @@ For this, the package includes a function to import and format .vp2 files, as we
 
 You can install the development version of SILViA from [GitHub](https://github.com/) with:
 
-```{r}
-# install.packages("devtools")
-# devtools::install_github("KemenesT/SILViA")
+```{r eval=FALSE}
+install.packages("devtools")
+devtools::install_github("KemenesT/SILViA")
+library(SILViA)
+```
+
+```{r echo=FALSE}
 library(SILViA)
 ```
 
@@ -35,7 +40,7 @@ library(SILViA)
 
 ### Reading .vp2 files
 
-The `read_vp2()` function is designed to read .vp2 files from SWIFT CTD devices. The content of these files differs depending on whether the device measures turbidity data or chlorophyll (through fluorescence). Thus the function takes as input a directory to read files from, the content that can be expected in the files, and the ID of the device. This last input is recorded in the file name produced by a SWIFT device.   
+The `read_vp2()` function is designed to read .vp2 files from Valeport SWIFT CTD devices. The content of these files differs depending on whether the device measures turbidity data or chlorophyll (through fluorescence). Thus the function takes as input a directory to read files from, the content that can be expected in the files, and the ID of the device. This last input is recorded in the file name produced by a SWIFT device.   
 Files from different devices may thus be stored within the same directory without preventing the function from reading the correct data.
 
 ```{r}
