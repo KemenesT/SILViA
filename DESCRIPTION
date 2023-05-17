@@ -9,12 +9,12 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-3877-1164"))
   )
 Description: Method to identify outlying points recorded by a Valeport
-    (<https://www.valeport.co.uk/>) Conductivity, Temperature, and Depth (CTD) 
-    meter along a depth profile, which are not congruent with the range of 
-    measurements taken in the surrounding water column. These are labeled as 
-    incongruent points. For this, the package includes a function to import and 
-    format .vp2 files, as well as functions to visualize depth profiles and the
-    incongruent points they contain.
+    (<https://www.valeport.co.uk/>) Conductivity, Temperature, and Depth
+    (CTD) meter along a depth profile, which are not congruent with the
+    range of measurements taken in the surrounding water column. These are
+    labeled as incongruent points. For this, the package includes a
+    function to import and format .vp2 files, as well as functions to
+    visualize depth profiles and the incongruent points they contain.
 License: MIT + file LICENSE
 URL: https://github.com/KemenesT/SILViA
 BugReports: https://github.com/KemenesT/SILViA/issues
