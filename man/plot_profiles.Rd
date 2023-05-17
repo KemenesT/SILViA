@@ -17,7 +17,7 @@ plot_profiles(
 }
 \arguments{
 \item{data}{Data frame containing data from .vp2 files as obtained from
-"read_vp2()".}
+\code{\link[=read_vp2]{read_vp2()}}.}
 
 \item{width}{Window width against which each data-point is compared along the
 CTD depth profile. Units should match those expressed in the "depth" column
@@ -59,7 +59,8 @@ identified as incongruent. Red points indicate those labeled as incongruent.
 Plots CTD profiles for all variables measured by the CTD are included. Data
 identified as incongruent are shown as red points, otherwise they are black.
 The blue line is computed as the moving average with a window of 5 data
-points, ignoring data identified as incongruent.
+points constructed with \code{\link[=moving_fn]{moving_fn()}}, ignoring data identified as
+incongruent.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:

@@ -8,7 +8,7 @@ setup_example()
 }
 \description{
 Sets up the files from ctdat.RData in a temporary directory to read with
-read_vp2().
+\code{\link[=read_vp2]{read_vp2()}}.
 }
 \examples{
 setup_example() # Saves example CTD files in a temporary directory
