@@ -13,21 +13,22 @@ incongruence.}
 \item{column}{Name of the variable being labeled for incongruents in the
 input data-frame "df1".}
 
-\item{subdf}{Subset data.frame inherited from "run_inc_test".}
+\item{subdf}{Subset data.frame inherited from \code{\link[=run_inc_test]{run_inc_test()}}.}
 
-\item{W}{Halved window-length; inherited from "LabelIncongruents".}
+\item{W}{Halved window-length; inherited from \code{\link[=label_incongruents]{label_incongruents()}}.}
 
 \item{alpha}{Level of significance used to test the incongruence of
 data-points. Larger alpha-values make the function more sensitive in the
 identification of incongruents.}
 
 \item{casts}{Vector of all cast names in the data-frame being processed;
-inherited from "run_inc_test".}
+inherited from \code{\link[=run_inc_test]{run_inc_test()}}.}
 
-\item{cast}{Name of the active cast; inherited from "run_inc_test".}
+\item{cast}{Name of the active cast; inherited from
+\code{\link[=run_inc_test]{run_inc_test()}}.}
 }
 \value{
-Data frame containing the T-score and incongruence labeling for each
+Data frame containing the p-value and incongruence labeling for each
 data point in the active cast.
 }
 \description{

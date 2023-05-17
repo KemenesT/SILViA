@@ -14,9 +14,9 @@ input data-frame "df1".}
 test. Points labeled "incongruent" are ignored in subsequent iterations.}
 
 \item{df1}{Data frame containing data from .vp2 files as obtained from
-"read_vp2()".}
+\code{\link[=read_vp2]{read_vp2()}}.}
 
-\item{W}{Halved window-length; inherited from "LabelIncongruents".}
+\item{W}{Halved window-length; inherited from \code{\link[=label_incongruents]{label_incongruents()}}.}
 
 \item{alpha}{Level of significance used to test the incongruence of
 data-points. Larger alpha-values make the function more sensitive in the
@@ -24,10 +24,10 @@ identification of incongruents.}
 }
 \value{
 Data frame containing the original input data, followed by columns
-indicating the incongruent labeling and T-score outcomes of each data point
+indicating the incongruent labeling and p-value outcomes of each data point
 for each variable.
 }
 \description{
-Applies incongruence_test() to each cast in a specified column from the input
-data frame. This is done for the specified number of iterations.
+Applies \code{\link[=incongruence_test]{incongruence_test()}} to each cast in a specified column from
+the input data frame. This is done for the specified number of iterations.
 }

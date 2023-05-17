@@ -3,16 +3,16 @@
 \docType{data}
 \name{ctdat}
 \alias{ctdat}
-\title{Example CTD Data from a SWiFT Device}
+\title{Example CTD Data from a Valeport SWiFT Device.}
 \format{
 An object of class "list" containing multiple profiles as recorded by
-a SWiFT CTD device.
+a Valeport SWiFT CTD device.
 }
 \usage{
 data(ctdat)
 }
 \description{
-Example CTD Data from a SWiFT Device
+Example CTD Data from a Valeport SWiFT Device.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:

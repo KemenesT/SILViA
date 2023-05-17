@@ -1,4 +1,4 @@
-#' Example CTD Data from a SWiFT Device
+#' Example CTD Data from a Valeport SWiFT Device.
 #'
 #'
 #' @docType data
@@ -6,7 +6,7 @@
 #' @usage data(ctdat)
 #'
 #' @format An object of class "list" containing multiple profiles as recorded by
-#'  a SWiFT CTD device.
+#'  a Valeport SWiFT CTD device.
 #'
 #' @keywords datasets
 #'

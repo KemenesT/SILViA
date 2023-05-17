@@ -101,7 +101,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
 #' Setup Example CTD Files
 #'
 #' Sets up the files from ctdat.RData in a temporary directory to read with
-#' read_vp2().
+#' [SILViA::read_vp2()].
 #'
 #' @export
 #' @examples

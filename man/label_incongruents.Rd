@@ -14,7 +14,7 @@ label_incongruents(
 }
 \arguments{
 \item{df1}{Data frame containing data from .vp2 files as obtained from
-"read_vp2()".}
+\code{\link[=read_vp2]{read_vp2()}}.}
 
 \item{W}{Window width against which each data-point is compared along the CTD
 depth profile. Units should match those expressed in the "depth" column of
@@ -38,10 +38,10 @@ has incongruent values for more than two variables.
 }
 \description{
 Creates additional columns to a data-frame in the format obtained from
-read_vp2(), indicating for each variable weather a data point is incongruent,
-and the associated p-value for the observation. Additionally it creates a
-"warnings" column indicating whether three or more variables for a given
-measurement depth show incongruent values.
+\code{\link[=read_vp2]{read_vp2()}}, indicating for each variable weather a data point is
+incongruent, and the associated p-value for the observation. Additionally it
+creates a "warnings" column indicating whether three or more variables for a
+given measurement depth show incongruent values.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:

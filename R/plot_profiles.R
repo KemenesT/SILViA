@@ -3,10 +3,11 @@
 #' Plots CTD profiles for all variables measured by the CTD are included. Data
 #' identified as incongruent are shown as red points, otherwise they are black.
 #' The blue line is computed as the moving average with a window of 5 data
-#' points, ignoring data identified as incongruent.
+#' points constructed with [SILViA::moving_fn()], ignoring data identified as
+#' incongruent.
 #'
 #' @param data Data frame containing data from .vp2 files as obtained from
-#' "read_vp2()".
+#' [SILViA::read_vp2()].
 #'
 #' @param width Window width against which each data-point is compared along the
 #' CTD depth profile. Units should match those expressed in the "depth" column
@@ -180,12 +181,16 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #'
 #' Plots the profile for a selected variable from the CTD data-set. The plot
 #' consists of all data points, with those labeled as incongruent colored red.
-#' The moving average for a window length of 5 points is shown as a blue line.
+#' The moving average for a window length of 5 points constructed with
+#' [SILViA::moving_fn()] is shown as a blue line.
 #'
-#' @param var Name of the variable to be plotted.
-#' @param data Data containing the variable to be plotted.
+#' @param var Name of the variable to be plotted. This should be one of: "sv",
+#' "temp", "sal", "dens", "cond", "chla", "neph", "obs", or "turb".
+#' @param data Data containing the variable to be plotted. This must be a
+#' data-frame as returned by [SILViA::label_incongruents()] or
+#' [SILViA::plot_profiles()].
 #'
-#' @return ggplot of the selected variable.
+#' @return ggplot object of the selected variable.
 #'
 #' @importFrom dplyr %>%
 #' @importFrom dplyr arrange

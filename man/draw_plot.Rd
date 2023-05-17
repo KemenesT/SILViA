@@ -7,17 +7,21 @@
 draw_plot(var, data)
 }
 \arguments{
-\item{var}{Name of the variable to be plotted.}
+\item{var}{Name of the variable to be plotted. This should be one of: "sv",
+"temp", "sal", "dens", "cond", "chla", "neph", "obs", or "turb".}
 
-\item{data}{Data containing the variable to be plotted.}
+\item{data}{Data containing the variable to be plotted. This must be a
+data-frame as returned by \code{\link[=label_incongruents]{label_incongruents()}} or
+\code{\link[=plot_profiles]{plot_profiles()}}.}
 }
 \value{
-ggplot of the selected variable.
+ggplot object of the selected variable.
 }
 \description{
 Plots the profile for a selected variable from the CTD data-set. The plot
 consists of all data points, with those labeled as incongruent colored red.
-The moving average for a window length of 5 points is shown as a blue line.
+The moving average for a window length of 5 points constructed with
+\code{\link[=moving_fn]{moving_fn()}} is shown as a blue line.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:

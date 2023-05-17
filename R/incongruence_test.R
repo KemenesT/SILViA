@@ -9,23 +9,24 @@
 #' @param column Name of the variable being labeled for incongruents in the
 #' input data-frame "df1".
 #'
-#' @param subdf Subset data.frame inherited from "run_inc_test".
+#' @param subdf Subset data.frame inherited from [SILViA::run_inc_test()].
 #'
-#' @param W Halved window-length; inherited from "LabelIncongruents".
+#' @param W Halved window-length; inherited from [SILViA::label_incongruents()].
 #'
 #' @param alpha Level of significance used to test the incongruence of
 #' data-points. Larger alpha-values make the function more sensitive in the
 #' identification of incongruents.
 #'
 #' @param casts Vector of all cast names in the data-frame being processed;
-#' inherited from "run_inc_test".
+#' inherited from [SILViA::run_inc_test()].
 #'
-#' @param cast Name of the active cast; inherited from "run_inc_test".
+#' @param cast Name of the active cast; inherited from
+#' [SILViA::run_inc_test()].
 #'
 #' @importFrom stats sd
 #' @importFrom stats pt
 #'
-#' @return Data frame containing the T-score and incongruence labeling for each
+#' @return Data frame containing the p-value and incongruence labeling for each
 #' data point in the active cast.
 #'
 incongruence_test <- function(point_time, column, subdf, W,
@@ -67,8 +68,8 @@ incongruence_test <- function(point_time, column, subdf, W,
 
 #' Run Incongruence Test
 #'
-#' Applies incongruence_test() to each cast in a specified column from the input
-#' data frame. This is done for the specified number of iterations.
+#' Applies [SILViA::incongruence_test()] to each cast in a specified column from
+#' the input data frame. This is done for the specified number of iterations.
 #'
 #' @param column Name of the variable being labeled for incongruents in the
 #' input data-frame "df1".
@@ -77,16 +78,16 @@ incongruence_test <- function(point_time, column, subdf, W,
 #' test. Points labeled "incongruent" are ignored in subsequent iterations.
 #'
 #' @param df1 Data frame containing data from .vp2 files as obtained from
-#' "read_vp2()".
+#' [SILViA::read_vp2()].
 #'
-#' @param W Halved window-length; inherited from "LabelIncongruents".
+#' @param W Halved window-length; inherited from [SILViA::label_incongruents()].
 #'
 #' @param alpha Level of significance used to test the incongruence of
 #' data-points. Larger alpha-values make the function more sensitive in the
 #' identification of incongruents.
 #'
 #' @return Data frame containing the original input data, followed by columns
-#' indicating the incongruent labeling and T-score outcomes of each data point
+#' indicating the incongruent labeling and p-value outcomes of each data point
 #' for each variable.
 #'
 run_inc_test <- function(column, iterations, df1, W, alpha) {
