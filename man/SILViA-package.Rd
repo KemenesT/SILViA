@@ -6,7 +6,7 @@
 \alias{SILViA-package}
 \title{SILViA: Sample Incongruents Labeling and Visualization Approach}
 \description{
-Method to identify outlying points recorded by a Valeport (https://www.valeport.co.uk/) Conductivity, Temperature, and Depth (CTD) meter along a depth profile, which are not congruent with the range of measurements taken in the surrounding water column. These are labeled as incongruent points. For this, the package includes a function to import and format .vp2 files, as well as functions to visualize depth profiles and the incongruent points they contain.
+Method to identify outlying points recorded by a Valeport (\url{https://www.valeport.co.uk/}) Conductivity, Temperature, and Depth (CTD) meter along a depth profile, which are not congruent with the range of measurements taken in the surrounding water column. These are labeled as incongruent points. For this, the package includes a function to import and format .vp2 files, as well as functions to visualize depth profiles and the incongruent points they contain.
 }
 \seealso{
 Useful links:
