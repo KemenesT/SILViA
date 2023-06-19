@@ -15,7 +15,7 @@ Description: Method to identify outlying points recorded by a Valeport
     labeled as incongruent points. For this, the package includes a
     function to import and format .vp2 files, as well as functions to
     visualize depth profiles and the incongruent points they contain.
-License: MIT + file LICENSE
+License: GPL (>= 3)
 URL: https://github.com/KemenesT/SILViA
 BugReports: https://github.com/KemenesT/SILViA/issues
 Depends: 
