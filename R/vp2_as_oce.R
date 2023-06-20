@@ -1,18 +1,18 @@
-#' Convert Cast Data to oce Object
+#' Convert vp2 Cast Data to oce Object
 #'
 #' For a data-frame as obtained by [SILViA::read_vp2()], converts a single cast
-#' file into an oce object applying [oce::as.ctd].
+#' file into an oce object.
 #'
 #' @param data A data-frame with .vp2 CTD data as returned by
 #' [SILViA::read_vp2()].
 #'
-#' @param file Filename of the cast to be converted into an oce object.
+#' @param file  Filename of the cast to be converted into an oce object.
 #'
-#' @param directory Directory where the raw .vp2 file corresponding to the cast
-#' to be converted is stored. This is necessary to extract the meta-data that
-#' is included for the file in the oce object.
+#' @param directory  Directory where the raw .vp2 file corresponding to the cast
+#'                   to be converted is stored. This is necessary to extract the
+#'                   meta-data included included in the oce object.
 #'
-#' @param type A character string. Either "Chlorophyll" or "Turbidity" for the
+#' @param type  A character string. Either "Chlorophyll" or "Turbidity" for the
 #' appropriate CTD measurement type.
 #'
 #'

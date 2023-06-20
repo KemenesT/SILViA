@@ -2,7 +2,7 @@
 % Please edit documentation in R/vp2_as_oce.R
 \name{vp2.as.oce}
 \alias{vp2.as.oce}
-\title{Convert Cast Data to oce Object}
+\title{Convert vp2 Cast Data to oce Object}
 \usage{
 vp2.as.oce(data, file, directory, type = c("Chlorophyll", "Turbidity"))
 }
@@ -13,8 +13,8 @@ vp2.as.oce(data, file, directory, type = c("Chlorophyll", "Turbidity"))
 \item{file}{Filename of the cast to be converted into an oce object.}
 
 \item{directory}{Directory where the raw .vp2 file corresponding to the cast
-to be converted is stored. This is necessary to extract the meta-data that
-is included for the file in the oce object.}
+to be converted is stored. This is necessary to extract the
+meta-data included included in the oce object.}
 
 \item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
 appropriate CTD measurement type.}
@@ -25,5 +25,24 @@ file.
 }
 \description{
 For a data-frame as obtained by \code{\link[=read_vp2]{read_vp2()}}, converts a single cast
-file into an oce object applying \link[oce:as.ctd]{oce::as.ctd}.
+file into an oce object.
+}
+\examples{
+## Load in example data and set it up in the temporary directory:
+setup_example()
+
+## Read the example casts:
+casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+
+## Subset single cast:
+file_name <- unique(casts$filename)[1]
+cast <- casts[which(casts$filename == file_name), ]
+
+## Convert single cast to oce object:
+object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir(),
+                     type = "Chlorophyll")
+
+## To clear the temporary directory after using 'setup_example()':
+unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
+
 }
