@@ -58,9 +58,8 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
   for (i in seq_along(files)) {
     fn <- files[i]
     lns <- readLines(paste0(directory, "/", fn))
-
-    start <- which(lns == "[DATA]")
-
+    start <- which(lns == "[DATA]")+2
+    print(i)
     if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID){
       if (length(lns) > start+2) {
         if (suppressWarnings(
@@ -82,7 +81,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
             }
             d <- read.table(paste0(directory, "/", fn), skip = start)
           } else if (type == "Turbidity") {
-            d <- read.table(paste0(directory, "/", fn), skip = start())
+            d <- read.table(paste0(directory, "/", fn), skip = start)
             if (length(names(d)) != length(nms)) {
               stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
                    call. = FALSE)
