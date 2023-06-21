@@ -59,7 +59,6 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
     fn <- files[i]
     lns <- readLines(paste0(directory, "/", fn))
     start <- which(lns == "[DATA]")+2
-    print(i)
     if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID){
       if (length(lns) > start+2) {
         if (suppressWarnings(
