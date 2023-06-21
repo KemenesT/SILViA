@@ -37,15 +37,11 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
       "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
       "cond", "chla"
     )
-    nlat <- 27
-    nlon <- 28
   } else if (type == "Turbidity") {
     nms <- c(
       "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
       "cond", "neph", "obs", "turb"
     )
-    nlat <- 30
-    nlon <- 31
   } else {
     stop("'type' must be one of 'Chlorophyll' or 'Turbidity'",
          call. = FALSE)
@@ -58,6 +54,8 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
   for (i in seq_along(files)) {
     fn <- files[i]
     lns <- readLines(paste0(directory, "/", fn))
+    nlat <- grep("latitude", lns, ignore.case = TRUE)
+    nlon <- grep("longitude", lns, ignore.case = TRUE)
     start <- which(lns == "[DATA]")+2
     if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID){
       if (length(lns) > start+2) {
