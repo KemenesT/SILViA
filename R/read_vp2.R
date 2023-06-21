@@ -37,11 +37,15 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
       "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
       "cond", "chla"
     )
+    nlat <- 27
+    nlon <- 28
   } else if (type == "Turbidity") {
     nms <- c(
       "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
       "cond", "neph", "obs", "turb"
     )
+    nlat <- 30
+    nlon <- 31
   } else {
     stop("'type' must be one of 'Chlorophyll' or 'Turbidity'",
          call. = FALSE)
@@ -53,41 +57,38 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
 
   for (i in seq_along(files)) {
     fn <- files[i]
-    if (substr(fn,
-               nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID) {
-      lns <- readLines(paste0(directory, "/", fn))
-      if (length(lns) > 58) {
-        if (suppressWarnings(
-            is.na(as.numeric(strsplit(lns[27], "=")[[1]][2])))
-            ) {
-          lat <- as.numeric(strsplit(gsub(",", ".", lns[27]), "=")[[1]][2])
-          lon <- as.numeric(strsplit(gsub(",", ".", lns[28]), "=")[[1]][2])
-        } else {
-          lat <- as.numeric(strsplit(lns[27], "=")[[1]][2])
-          lon <- as.numeric(strsplit(lns[28], "=")[[1]][2])
-        }
+    lns <- readLines(paste0(directory, "/", fn))
+    if (length(lns) > 58) {
+      if (suppressWarnings(
+          is.na(as.numeric(strsplit(lns[nlat], "=")[[1]][2])))
+          ) {
+        lat <- as.numeric(strsplit(gsub(",", ".", lns[nlat]), "=")[[1]][2])
+        lon <- as.numeric(strsplit(gsub(",", ".", lns[nlon]), "=")[[1]][2])
+      } else {
+        lat <- as.numeric(strsplit(lns[nlat], "=")[[1]][2])
+        lon <- as.numeric(strsplit(lns[nlon], "=")[[1]][2])
+      }
 
-        if (lat != 999 | lon != 999) {
-          if (type == "Chlorophyll") {
-            if ("try-error" %in%
-                class(try(read.table(paste0(directory, "/", fn), skip = 56)))) {
-        stop("Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
-           call. = FALSE)
-            }
-            d <- read.table(paste0(directory, "/", fn), skip = 56)
-          } else if (type == "Turbidity") {
-            d <- read.table(paste0(directory, "/", fn), skip = 58)
-            if (length(names(d)) != length(nms)) {
-        stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
-                   call. = FALSE)
-            }
+      if (lat != 999 | lon != 999) {
+        if (type == "Chlorophyll") {
+          if ("try-error" %in%
+              class(try(read.table(paste0(directory, "/", fn), skip = 56)))) {
+      stop("Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
+         call. = FALSE)
           }
-          names(d) <- nms
-          d$filename <- fn
-          d$lat <- lat
-          d$lon <- lon
-          M <- rbind(M, d)
+          d <- read.table(paste0(directory, "/", fn), skip = 56)
+        } else if (type == "Turbidity") {
+          d <- read.table(paste0(directory, "/", fn), skip = 58)
+          if (length(names(d)) != length(nms)) {
+      stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
+                 call. = FALSE)
+          }
         }
+        names(d) <- nms
+        d$filename <- fn
+        d$lat <- lat
+        d$lon <- lon
+        M <- rbind(M, d)
       }
     }
   }

@@ -52,6 +52,12 @@ incongruence_test <- function(point_time, column, subdf, W,
   Tv <- (subdf[u, column] - Mean) / S
   pV <- pt(q = Tv, df = length(window1), lower.tail = FALSE)
 
+  ###############################################################
+
+
+
+  ###############################################################
+
   if (is.na(pV < alpha)) {
     incongruence <- "Error"
     pV <- "Error"
