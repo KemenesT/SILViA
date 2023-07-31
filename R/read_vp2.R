@@ -72,14 +72,16 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
         if (type == "Chlorophyll") {
           d <- read.table(paste0(directory, "/", fn), skip = start)
           if (length(names(d)) != length(nms)){
-            stop("Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
-                 call. = FALSE)
+            stop(
+            "Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
+            call. = FALSE)
           }
         } else if (type == "Turbidity") {
           d <- read.table(paste0(directory, "/", fn), skip = start)
           if (type == "Turbidity" & length(names(d)) != length(nms)) {
-            stop("Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
-                 call. = FALSE)
+            stop(
+            "Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
+            call. = FALSE)
           }
         }
 

@@ -105,7 +105,7 @@ vp2.as.oce <- function(data, file, directory,
                    cast$neph, cast$obs, cast$turb))
   }
 
-  for(n in 1:length(missing_data$name)) {
+  for(n in seq_along(missing_data$name)) {
     object <- add.data(object, missing_data$name[n], missing_data$value[n])
   }
 
