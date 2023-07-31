@@ -6,6 +6,11 @@
 #' creates a "warnings" column indicating whether three or more variables for a
 #' given measurement depth show incongruent values.
 #'
+#' Incongruence is determined with either a t-test or one of the methods
+#' available from the package "outliers": with a Chi-squared test, Dixon test,
+#' Grubbs test, or by determining if a point has the highest residual from the
+#' mean of the window specified.
+#'
 #' @param df1 Data frame containing data from .vp2 files as obtained from
 #' [SILViA::read_vp2()].
 #'
@@ -22,6 +27,9 @@
 #'
 #' @param type A character string. Either "Chlorophyll" or "Turbidity" for the
 #' appropriate CTD measurement type.
+#'
+#' @param method Method to be used to determine whether a point is an outlier.
+#' Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".
 #'
 #' @return List. Contains two data-frames. "labeled_data" contains the input
 #' data-frame with columns labeling the incongruence of each point for each
@@ -41,15 +49,19 @@
 #' ## Label incongruents in the imported data:
 #' output <- label_incongruents(
 #'   df1 = casts, W = 0.6, alpha = 0.0001,
-#'   type = "Chlorophyll"
+#'   type = "Chlorophyll",
+#'   method = "t.student"
 #' )
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 #'
 label_incongruents <- function(df1, W, alpha, iterations = 1,
-                               type = c("Chlorophyll", "Turbidity")) {
+                               type = c("Chlorophyll", "Turbidity"),
+                               method = c("t.student", "max.residual", "chisq",
+                                          "dixon", "grubbs")) {
   type <- match.arg(type)
+  method <- match.arg(method)
   qt <- sv <- temp <- sal <- dens <- cond <- chla <- neph <- obs <- turb <- NULL
   W <- W / 2
 
@@ -66,7 +78,7 @@ label_incongruents <- function(df1, W, alpha, iterations = 1,
       cbind.data.frame,
       lapply(
         c("sv", "temp", "sal", "dens", "cond", "chla"),
-        run_inc_test, iterations, df1, W, alpha
+        run_inc_test, iterations, df1, W, alpha, method
       )
     )
     df1 <- data.frame(df1[, c(
@@ -121,7 +133,7 @@ label_incongruents <- function(df1, W, alpha, iterations = 1,
           "sv", "temp", "sal", "dens", "cond", "neph",
           "obs", "turb"
         ),
-        run_inc_test, iterations, df1, W, alpha
+        run_inc_test, iterations, df1, W, alpha, method
       )
     )
     df1 <- data.frame(

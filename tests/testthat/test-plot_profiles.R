@@ -8,7 +8,7 @@ test_that("ggplot objects are returned", {
   casts$temp[10] <- 100
   output <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Chlorophyll"
+    type = "Chlorophyll", method = "t.student"
   )
   output <- output[output$filename == unique(output$filename)[1], ]
   p <- draw_plot("chla", output)
@@ -30,11 +30,11 @@ test_that("plot_profiles returns the same output as label_incongruents", {
   casts$temp[10] <- 100
   output1 <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Chlorophyll"
+    type = "Chlorophyll", method = "t.student"
   )
   output2 <- plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Chlorophyll"
+    type = "Chlorophyll", method = "t.student"
   )
   expect_identical(output1, output2)
 
@@ -49,11 +49,11 @@ test_that("plot_profiles returns the same output as label_incongruents", {
   casts$turb[1] <- 900
   output1 <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Turbidity"
+    type = "Turbidity", method = "t.student"
   )
   output2 <- plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Turbidity"
+    type = "Turbidity", method = "t.student"
   )
   expect_identical(output1, output2)
   unlink(paste0(getwd(), "/profiles.pdf"))
@@ -70,7 +70,7 @@ test_that("plot_profiles with 'any' returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Chlorophyll"
+    type = "Chlorophyll", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))
@@ -81,7 +81,7 @@ test_that("plot_profiles with 'any' returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Turbidity"
+    type = "Turbidity", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))
@@ -100,7 +100,7 @@ test_that("plot_profiles with 'all' returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Chlorophyll", plots = "all"
+    type = "Chlorophyll", plots = "all", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))
@@ -111,7 +111,7 @@ test_that("plot_profiles with 'all' returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Turbidity", plots = "all"
+    type = "Turbidity", plots = "all", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))
@@ -130,7 +130,7 @@ test_that("plot_profiles with a specific variable returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Chlorophyll", plots = "chla"
+    type = "Chlorophyll", plots = "chla", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))
@@ -141,7 +141,7 @@ test_that("plot_profiles with a specific variable returns plots", {
 
   expect_message(plot_profiles(
     data = casts, width = 1, alpha = 0.0001,
-    type = "Turbidity", plots = "turb"
+    type = "Turbidity", plots = "turb", method = "t.student"
   ))
 
   expect_true(file.exists(paste0(getwd(), "/profiles.pdf")))

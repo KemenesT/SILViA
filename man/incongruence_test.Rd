@@ -4,7 +4,7 @@
 \alias{incongruence_test}
 \title{Incongruence Test}
 \usage{
-incongruence_test(point_time, column, subdf, W, alpha, casts, cast)
+incongruence_test(point_time, column, subdf, W, alpha, casts, cast, method)
 }
 \arguments{
 \item{point_time}{Time measurement of the data point to be tested for
@@ -26,6 +26,9 @@ inherited from \code{\link[=run_inc_test]{run_inc_test()}}.}
 
 \item{cast}{Name of the active cast; inherited from
 \code{\link[=run_inc_test]{run_inc_test()}}.}
+
+\item{method}{Method to be used to determine whether a point is an outlier.
+Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".}
 }
 \value{
 Data frame containing the p-value and incongruence labeling for each

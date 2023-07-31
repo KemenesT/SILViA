@@ -8,7 +8,7 @@ test_that("incongruents and warnings are labeled for entire file sets", {
   casts$temp[10] <- 100
   output <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Chlorophyll"
+    type = "Chlorophyll", method = "t.student"
   )
   expect_identical(colnames(output), c(
     colnames(casts),
@@ -32,7 +32,7 @@ test_that("incongruents and warnings are labeled for entire file sets", {
   casts$turb[1] <- 900
   output <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Turbidity"
+    type = "Turbidity", method = "t.student"
   )
   expect_identical(colnames(output), c(
     colnames(casts),

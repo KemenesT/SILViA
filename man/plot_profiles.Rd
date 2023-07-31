@@ -12,7 +12,8 @@ plot_profiles(
   type = c("Chlorophyll", "Turbidity"),
   min.depth = 0,
   directory = getwd(),
-  plots = "any"
+  plots = "any",
+  method = c("t.student", "max.residual", "chisq", "dixon", "grubbs")
 )
 }
 \arguments{
@@ -46,6 +47,9 @@ from a cast will be plotted if an incongruent data point was labeled for the
 selected variables. The default "any" only excludes plots from casts that
 had no incongruent data points for all variables. The option "all" plots
 all casts regardless of whether they had incongruent data points.}
+
+\item{method}{Method to be used to determine whether a point is an outlier.
+Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".}
 }
 \value{
 Data frame containing the input data-frame with columns labeling the
@@ -61,6 +65,12 @@ identified as incongruent are shown as red points, otherwise they are black.
 The blue line is computed as the moving average with a window of 5 data
 points constructed with \code{\link[=moving_fn]{moving_fn()}}, ignoring data identified as
 incongruent.
+}
+\details{
+Incongruence is determined with either a t-test or one of the methods
+available from the package "outliers": with a Chi-squared test, Dixon test,
+Grubbs test, or by determining if a point has the highest residual from the
+mean of the window specified.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:
@@ -78,7 +88,8 @@ casts <- casts[which(casts$filename \%in\% selected_files),]
 output <- plot_profiles(
   data = casts, width = 0.6, alpha = 0.001,
   type = "Chlorophyll", min.depth = 1.5,
-  directory = tempdir()
+  directory = tempdir(),
+  method = "t.student"
 )
 
 ## To delete the example pdf you can run the following:

@@ -4,7 +4,7 @@
 \alias{run_inc_test}
 \title{Run Incongruence Test}
 \usage{
-run_inc_test(column, iterations, df1, W, alpha)
+run_inc_test(column, iterations, df1, W, alpha, method)
 }
 \arguments{
 \item{column}{Name of the variable being labeled for incongruents in the
@@ -21,6 +21,9 @@ test. Points labeled "incongruent" are ignored in subsequent iterations.}
 \item{alpha}{Level of significance used to test the incongruence of
 data-points. Larger alpha-values make the function more sensitive in the
 identification of incongruents.}
+
+\item{method}{Method to be used to determine whether a point is an outlier.
+Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".}
 }
 \value{
 Data frame containing the original input data, followed by columns

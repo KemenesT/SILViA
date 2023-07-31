@@ -26,6 +26,7 @@ Imports:
     grDevices,
     gridExtra,
     stats,
+    outliers,
     utils,
     oce
 Suggests: 

@@ -23,14 +23,21 @@
 #' @param cast Name of the active cast; inherited from
 #' [SILViA::run_inc_test()].
 #'
+#' @param method Method to be used to determine whether a point is an outlier.
+#' Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".
+#'
 #' @importFrom stats sd
 #' @importFrom stats pt
+#' @importFrom outliers chisq.out.test
+#' @importFrom outliers dixon.test
+#' @importFrom outliers grubbs.test
+#' @importFrom outliers outlier
 #'
 #' @return Data frame containing the p-value and incongruence labeling for each
 #' data point in the active cast.
 #'
 incongruence_test <- function(point_time, column, subdf, W,
-                              alpha, casts, cast) {
+                              alpha, casts, cast, method) {
   u <- which(subdf$time == point_time)
   active_depth <- subdf$depth[u]
   depth_range <- vector()
@@ -45,26 +52,84 @@ incongruence_test <- function(point_time, column, subdf, W,
     ))
   }
 
-  window1 <- window1[-which(window1 == u)]
-
-  S <- sd(subdf[window1, column])
-  Mean <- mean(subdf[window1, column])
-  Tv <- (subdf[u, column] - Mean) / S
-  pV <- pt(q = Tv, df = length(window1), lower.tail = FALSE)
-
-  ###############################################################
-
-
-
-  ###############################################################
-
-  if (is.na(pV < alpha)) {
-    incongruence <- "Error"
-    pV <- "Error"
-  } else if (pV < alpha) {
-    incongruence <- "Yes"
+  window2 <- window1[-which(window1 == u)]
+  test.result <- outlier(x = subdf[window1, column])
+  if (subdf[u, column] == test.result) {
+    ismax <- TRUE
   } else {
-    incongruence <- "No"
+    ismax <- FALSE
+  }
+
+  if (method == "t.student") {
+
+    S <- sd(subdf[window2, column])
+    Mean <- mean(subdf[window2, column])
+    Tv <- (subdf[u, column] - Mean) / S
+    pV <- pt(q = Tv, df = length(window2), lower.tail = FALSE)
+
+    if (is.na(pV < alpha)) {
+      incongruence <- "Error"
+      pV <- NA
+    } else if (pV < alpha) {
+      incongruence <- "Yes"
+    } else {
+      incongruence <- "No"
+    }
+
+  } else if (method == "max.residual") {
+
+    if(ismax) {
+      pV <- NA
+      incongruence <- "Yes"
+    } else {
+      pV <- NA
+      incongruence <- "No"
+    }
+
+  } else if (method == "chisq") {
+
+    if(ismax) {
+      test.result <- chisq.out.test(x = subdf[window1, column])
+      pV <- test.result$p.value
+      if (pV < alpha) {
+        incongruence <- "Yes"
+      } else {
+        incongruence <- "No"
+      }
+    } else {
+      pV <- NA
+      incongruence <- "No"
+    }
+
+  } else if (method == "dixon") {
+
+    if(ismax) {
+      test.result <- dixon.test(x = subdf[window1, column])
+      pV <- test.result$p.value
+      if (pV < alpha) {
+        incongruence <- "Yes"
+      } else {
+        incongruence <- "No"
+      }
+    } else {
+      pV <- NA
+      incongruence <- "No"
+    }
+
+  } else if (method == "grubbs") {
+
+    if(ismax) {
+      test.result <- grubbs.test(x = subdf[window1, column])
+      pV <- test.result$p.value
+      if (pV < alpha) {
+        incongruence <- "Yes"
+      } else {
+        incongruence <- "No"
+      }
+    } else {
+      pV <- NA
+      incongruence <- "No"
+    }
   }
 
   output <- data.frame(incongruence = incongruence, pV = pV)
@@ -92,11 +157,14 @@ incongruence_test <- function(point_time, column, subdf, W,
 #' data-points. Larger alpha-values make the function more sensitive in the
 #' identification of incongruents.
 #'
+#' @param method Method to be used to determine whether a point is an outlier.
+#' Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".
+#'
 #' @return Data frame containing the original input data, followed by columns
 #' indicating the incongruent labeling and p-value outcomes of each data point
 #' for each variable.
 #'
-run_inc_test <- function(column, iterations, df1, W, alpha) {
+run_inc_test <- function(column, iterations, df1, W, alpha, method) {
   filename <- NULL
 
   for (iterate in 1:iterations) {
@@ -114,7 +182,7 @@ run_inc_test <- function(column, iterations, df1, W, alpha) {
         X = subdf$time,
         FUN = incongruence_test,
         column, subdf, W, alpha,
-        casts, cast
+        casts, cast, method
       ))
 
       df1[active_df[active], paste0(

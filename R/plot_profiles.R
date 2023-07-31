@@ -6,6 +6,11 @@
 #' points constructed with [SILViA::moving_fn()], ignoring data identified as
 #' incongruent.
 #'
+#' Incongruence is determined with either a t-test or one of the methods
+#' available from the package "outliers": with a Chi-squared test, Dixon test,
+#' Grubbs test, or by determining if a point has the highest residual from the
+#' mean of the window specified.
+#'
 #' @param data Data frame containing data from .vp2 files as obtained from
 #' [SILViA::read_vp2()].
 #'
@@ -36,6 +41,9 @@
 #' selected variables. The default "any" only excludes plots from casts that
 #' had no incongruent data points for all variables. The option "all" plots
 #' all casts regardless of whether they had incongruent data points.
+#'
+#' @param method Method to be used to determine whether a point is an outlier.
+#' Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".
 #'
 #' @return Data frame containing the input data-frame with columns labeling the
 #' incongruence of each point for each variable; the "warning" column indicating
@@ -68,7 +76,8 @@
 #' output <- plot_profiles(
 #'   data = casts, width = 0.6, alpha = 0.001,
 #'   type = "Chlorophyll", min.depth = 1.5,
-#'   directory = tempdir()
+#'   directory = tempdir(),
+#'   method = "t.student"
 #' )
 #'
 #' ## To delete the example pdf you can run the following:
@@ -79,8 +88,11 @@
 #'
 plot_profiles <- function(data, width, alpha, iterations = 1,
                           type = c("Chlorophyll", "Turbidity"), min.depth = 0,
-                          directory = getwd(), plots = "any") {
+                          directory = getwd(), plots = "any",
+                          method = c("t.student", "max.residual", "chisq",
+                                     "dixon", "grubbs")) {
   type <- match.arg(type)
+  method <- match.arg(method)
   pV_sv <- pV_temp <- pV_sal <- pV_ <- pV_dens <- pV_cond <- pV_chla <-
     pV_neph <- pV_obs <- pV_turb <- NULL
   data <- data[data$depth > min.depth, ]
@@ -222,7 +234,8 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #' ## Label incongruents in the data:
 #' output <- label_incongruents(
 #'   df1 = single_file, W = 1, alpha = 0.0001,
-#'   type = "Chlorophyll"
+#'   type = "Chlorophyll",
+#'   method = "t.student"
 #' )
 #'
 #' ## Plot a single profile:

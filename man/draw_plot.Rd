@@ -37,7 +37,8 @@ single_file <- casts[which(casts$filename == selected_filename), ]
 ## Label incongruents in the data:
 output <- label_incongruents(
   df1 = single_file, W = 1, alpha = 0.0001,
-  type = "Chlorophyll"
+  type = "Chlorophyll",
+  method = "t.student"
 )
 
 ## Plot a single profile:

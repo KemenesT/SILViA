@@ -9,7 +9,8 @@ label_incongruents(
   W,
   alpha,
   iterations = 1,
-  type = c("Chlorophyll", "Turbidity")
+  type = c("Chlorophyll", "Turbidity"),
+  method = c("t.student", "max.residual", "chisq", "dixon", "grubbs")
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ test. Points labeled "incongruent" are ignored in subsequent iterations.}
 
 \item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
 appropriate CTD measurement type.}
+
+\item{method}{Method to be used to determine whether a point is an outlier.
+Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".}
 }
 \value{
 List. Contains two data-frames. "labeled_data" contains the input
@@ -43,6 +47,12 @@ incongruent, and the associated p-value for the observation. Additionally it
 creates a "warnings" column indicating whether three or more variables for a
 given measurement depth show incongruent values.
 }
+\details{
+Incongruence is determined with either a t-test or one of the methods
+available from the package "outliers": with a Chi-squared test, Dixon test,
+Grubbs test, or by determining if a point has the highest residual from the
+mean of the window specified.
+}
 \examples{
 ## Load in example data and set it up in the temporary directory:
 setup_example()
@@ -54,7 +64,8 @@ casts <- casts[which(casts$filename \%in\% unique(casts$filename)[1:2]),]
 ## Label incongruents in the imported data:
 output <- label_incongruents(
   df1 = casts, W = 0.6, alpha = 0.0001,
-  type = "Chlorophyll"
+  type = "Chlorophyll",
+  method = "t.student"
 )
 
 ## To clear the temporary directory after using 'setup_example()':
