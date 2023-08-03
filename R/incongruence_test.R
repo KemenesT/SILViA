@@ -62,17 +62,25 @@ incongruence_test <- function(point_time, column, subdf, W,
 
   if (method == "t.student") {
 
-    S <- sd(subdf[window2, column])
-    Mean <- mean(subdf[window2, column])
-    Tv <- (subdf[u, column] - Mean) / S
-    pV <- pt(q = Tv, df = length(window2), lower.tail = FALSE)
+    if(ismax) {
 
-    if (is.na(pV < alpha)) {
-      incongruence <- "Error"
-      pV <- NA
-    } else if (pV < alpha) {
-      incongruence <- "Yes"
+      S <- sd(subdf[window2, column])
+      Mean <- mean(subdf[window2, column])
+      Tv <- abs(subdf[u, column] - Mean) / S
+      pV <- pt(q = Tv, df = length(window2), lower.tail = FALSE)*2
+
+      # test.result <- t.test(x = subdf[window1, column])
+      # pV <- test.result$p.value
+      if (is.na(pV < alpha)) {
+        incongruence <- "Error"
+        pV <- NA
+      } else if (pV < alpha) {
+        incongruence <- "Yes"
+      } else {
+        incongruence <- "No"
+      }
     } else {
+      pV <- NA
       incongruence <- "No"
     }
 
