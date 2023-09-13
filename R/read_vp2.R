@@ -32,17 +32,27 @@
 read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
   files <- sort(dir(path = directory, pattern = ".vp2"))
 
-  if (type == "Chlorophyll") {
-    nms <- c(
-      "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
-      "cond", "chla"
-    )
-  } else if (type == "Turbidity") {
-    nms <- c(
-      "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
-      "cond", "neph", "obs", "turb"
-    )
-  } else {
+  for (i in seq_along(files)) {
+    fn <- files[i]
+    if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID) {
+      lns <- readLines(paste0(directory, "/", fn))
+      nms <- lns[which(lns == "[DATA]") + 1]
+      nms <- strsplit(nms, split = "/|\t")
+      nms <- unlist(nms)
+      break
+    }
+  }
+
+
+  if (type == "Chlorophyll" & any(nms == "Turbidity")) {
+    stop(
+      "Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
+      call. = FALSE)
+  } else if (type == "Turbidity" & all(nms != "Turbidity")) {
+    stop(
+      "Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
+      call. = FALSE)
+  } else if (type != "Chlorophyll" & type != "Turbidity") {
     stop("'type' must be one of 'Chlorophyll' or 'Turbidity'",
          call. = FALSE)
   }
