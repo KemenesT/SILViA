@@ -30,7 +30,7 @@
 #' setup_example()
 #'
 #' ## Read the example casts:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #'
 #' ## Subset single cast:
 #' file_name <- unique(casts$filename)[1]
@@ -69,12 +69,13 @@ vp2.as.oce <- function(data, file, directory,
   }
 
   object <- as.ctd(
-    salinity = cast$sal,
-    temperature = cast$temp,
+    salinity = cast$salinity,
+    temperature = cast$temperature,
     pressure = cast$pressure,
-    conductivity = cast$cond,
+    conductivity = cast$conductivity,
     time = cast$time,
-    units = unlist(lapply(c("sal", "temp", "press", "cond", "time"), getunit)),
+    units = unlist(lapply(c("salinity", "temperature", "pressure",
+                            "conductivity", "time"), getunit)),
     missingValue = NULL,
     serialNumber = gsub(".*=", "\\1", lines[1]),
     startTime = cast$time[1],
@@ -95,14 +96,14 @@ vp2.as.oce <- function(data, file, directory,
 
   if (type == "Chlorophyll") {
     missing_data <- list(
-      name = c("date", "depth", "velocity", "density", nms),
-      value = list(cast$date, cast$depth, cast$sv, cast$dens,
-                   cast$chla))
+      name = c("date", "depth", "sound.velocity", "density", nms),
+      value = list(cast$date, cast$depth, cast$sound.velocity, cast$density,
+                   cast$optics.1))
   } else if (type == "Turbidity") {
     missing_data <- list(
-      name = c("date", "depth", "velocity", "density", nms),
-      value = list(cast$date, cast$depth, cast$sv, cast$dens,
-                   cast$neph, cast$obs, cast$turb))
+      name = c("date", "depth", "sound.velocity", "density", nms),
+      value = list(cast$date, cast$depth, cast$sound.velocity, cast$density,
+                   cast$optics.1, cast$optics.2, cast$turbidity))
   }
 
   for(n in seq_along(missing_data$name)) {

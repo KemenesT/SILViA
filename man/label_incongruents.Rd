@@ -9,7 +9,6 @@ label_incongruents(
   W,
   alpha,
   iterations = 1,
-  type = c("Chlorophyll", "Turbidity"),
   method = c("t.student", "max.residual", "chisq", "dixon", "grubbs")
 )
 }
@@ -27,9 +26,6 @@ identification of incongruents.}
 
 \item{iterations}{Number of iterations for applying the incongruence labeling
 test. Points labeled "incongruent" are ignored in subsequent iterations.}
-
-\item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
-appropriate CTD measurement type.}
 
 \item{method}{Method to be used to determine whether a point is an outlier.
 Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".}
@@ -58,13 +54,12 @@ mean of the window specified.
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 casts <- casts[which(casts$filename \%in\% unique(casts$filename)[1:2]),]
 
 ## Label incongruents in the imported data:
 output <- label_incongruents(
   df1 = casts, W = 0.6, alpha = 0.0001,
-  type = "Chlorophyll",
   method = "t.student"
 )
 

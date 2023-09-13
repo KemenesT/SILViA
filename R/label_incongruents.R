@@ -25,9 +25,6 @@
 #' @param iterations Number of iterations for applying the incongruence labeling
 #' test. Points labeled "incongruent" are ignored in subsequent iterations.
 #'
-#' @param type A character string. Either "Chlorophyll" or "Turbidity" for the
-#' appropriate CTD measurement type.
-#'
 #' @param method Method to be used to determine whether a point is an outlier.
 #' Should be one of "t.student", "max.residual", "chisq", "dixon", or "grubbs".
 #'
@@ -43,13 +40,12 @@
 #' setup_example()
 #'
 #' ## Read the example casts:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #' casts <- casts[which(casts$filename %in% unique(casts$filename)[1:2]),]
 #'
 #' ## Label incongruents in the imported data:
 #' output <- label_incongruents(
 #'   df1 = casts, W = 0.6, alpha = 0.0001,
-#'   type = "Chlorophyll",
 #'   method = "t.student"
 #' )
 #'
@@ -57,10 +53,9 @@
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 #'
 label_incongruents <- function(df1, W, alpha, iterations = 1,
-                               type = c("Chlorophyll", "Turbidity"),
                                method = c("t.student", "max.residual", "chisq",
                                           "dixon", "grubbs")) {
-  type <- match.arg(type)
+
   method <- match.arg(method)
   W <- W / 2
 
@@ -79,8 +74,10 @@ label_incongruents <- function(df1, W, alpha, iterations = 1,
                         by = 1, length.out = length(inc_new)*2)] <- c(inc_new,
                                                                       pV_new)
   df1$warning <- NA
-  df1[, seq.int(from = original_length+1,
-                by = 1, length.out = length(inc_new))] <- "No"
+  df1[, grep("incongruent_", colnames(df1), value = T)] <- "No"
+  df1[, grep("pV_", colnames(df1), value = T)] <- NA
+  df1[, grep("pV_", colnames(df1), value = T)] <-
+    sapply(df1[, grep("pV_", colnames(df1), value = T)], as.numeric)
 
   outputs <- do.call(
     cbind.data.frame,
@@ -94,8 +91,6 @@ label_incongruents <- function(df1, W, alpha, iterations = 1,
 
   df1$warning <- rowSums(ifelse(df1[, inc_new] == "Yes", 1, 0))
   df1$warning <- ifelse(df1$warning > 2, "Yes", "No")
-
-  Warnings <- df1[which(df1$warning == "Yes"), ]
 
   return(df1)
 }

@@ -32,7 +32,7 @@ file into an oce object.
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## Subset single cast:
 file_name <- unique(casts$filename)[1]

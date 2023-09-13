@@ -4,46 +4,48 @@ test_that("incongruents and warnings are labeled for entire file sets", {
     list.files(tempdir(), pattern = ".vp2")
   )))
   setup_example()
-  casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
-  casts$temp[10] <- 100
+  casts <- read_vp2(directory = tempdir(), ID = 12345)
+  casts$temperature[10] <- 100
   output <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Chlorophyll", method = "t.student"
+    method = "t.student"
   )
   expect_identical(colnames(output), c(
     colnames(casts),
-    "incongruent_sv", "pV_sv",
-    "incongruent_temp", "pV_temp",
-    "incongruent_sal", "pV_sal",
-    "incongruent_dens", "pV_dens",
-    "incongruent_cond", "pV_cond",
-    "incongruent_chla", "pV_chla",
+    "incongruent_pressure", "pV_pressure",
+    "incongruent_sound.velocity", "pV_sound.velocity",
+    "incongruent_temperature", "pV_temperature",
+    "incongruent_salinity", "pV_salinity",
+    "incongruent_density", "pV_density",
+    "incongruent_conductivity", "pV_conductivity",
+    "incongruent_optics.1", "pV_optics.1",
     "warning"
   ))
 
-  casts <- read_vp2(directory = tempdir(), type = "Turbidity", ID = 54321)
-  casts$sv[1] <- 15400
-  casts$temp[1] <- 100
-  casts$sal[1] <- 100
-  casts$dens[1] <- 10220
-  casts$cond[1] <- 300
-  casts$neph[1] <- 1000
-  casts$obs[1] <- 1000
-  casts$turb[1] <- 900
+  casts <- read_vp2(directory = tempdir(), ID = 54321)
+  casts$sound.velocity[1] <- 15400
+  casts$temperature[1] <- 100
+  casts$salinity[1] <- 100
+  casts$density[1] <- 10220
+  casts$conductivity[1] <- 300
+  casts$optics.1[1] <- 1000
+  casts$optics.2[1] <- 1000
+  casts$turbidity[1] <- 900
   output <- label_incongruents(
     df1 = casts, W = 1, alpha = 0.0001,
-    type = "Turbidity", method = "t.student"
+    method = "t.student"
   )
   expect_identical(colnames(output), c(
     colnames(casts),
-    "incongruent_sv", "pV_sv",
-    "incongruent_temp", "pV_temp",
-    "incongruent_sal", "pV_sal",
-    "incongruent_dens", "pV_dens",
-    "incongruent_cond", "pV_cond",
-    "incongruent_neph", "pV_neph",
-    "incongruent_obs", "pV_obs",
-    "incongruent_turb", "pV_turb",
+    "incongruent_pressure", "pV_pressure",
+    "incongruent_sound.velocity", "pV_sound.velocity",
+    "incongruent_temperature", "pV_temperature",
+    "incongruent_salinity", "pV_salinity",
+    "incongruent_density", "pV_density",
+    "incongruent_conductivity", "pV_conductivity",
+    "incongruent_optics.1", "pV_optics.1",
+    "incongruent_optics.2", "pV_optics.2",
+    "incongruent_turbidity", "pV_turbidity",
     "warning"
   ))
 })

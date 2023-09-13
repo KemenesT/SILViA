@@ -4,14 +4,11 @@
 \alias{read_vp2}
 \title{Read .vp2 Files}
 \usage{
-read_vp2(directory, type = c("Chlorophyll", "Turbidity"), ID)
+read_vp2(directory, ID)
 }
 \arguments{
 \item{directory}{A character string of the directory from which to retrieve
 .vp2 files.}
-
-\item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
-appropriate CTD measurement type.}
 
 \item{ID}{Numeric. The ID of the CTD present in each file as:
 "VL_ID_filenumber.vp2"}
@@ -21,15 +18,14 @@ A data frame containing the data for all .vp2 files in stacked
 format.
 }
 \description{
-Read all .vp2 files in a directory given the CTD file ID and measurement
-type.
+Read all .vp2 files in a directory given the CTD file ID.
 }
 \examples{
 ## Load in example data and set it up in the temporary directory:
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## To clear the temporary directory after using 'setup_example()':
 unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))

@@ -9,7 +9,6 @@ plot_profiles(
   width,
   alpha,
   iterations = 1,
-  type = c("Chlorophyll", "Turbidity"),
   min.depth = 0,
   directory = getwd(),
   plots = "any",
@@ -30,9 +29,6 @@ identification of incongruents.}
 
 \item{iterations}{Number of iterations for applying the incongruence labeling
 test. Points labeled "incongruent" are ignored in subsequent iterations.}
-
-\item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
-appropriate CTD measurement type.}
 
 \item{min.depth}{Minimum depth above which points are excluded from the
 profiles. Units should match those expressed in the "depth" column of the
@@ -77,7 +73,7 @@ mean of the window specified.
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## Select a few samples to plot quickly:
 selected_files <- unique(casts$filename)[3:4]
@@ -87,8 +83,7 @@ casts <- casts[which(casts$filename \%in\% selected_files),]
 ## plots:
 output <- plot_profiles(
   data = casts, width = 0.6, alpha = 0.001,
-  type = "Chlorophyll", min.depth = 1.5,
-  directory = tempdir(),
+  min.depth = 1.5, directory = tempdir(),
   method = "t.student"
 )
 

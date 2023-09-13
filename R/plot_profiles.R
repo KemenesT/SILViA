@@ -25,9 +25,6 @@
 #' @param iterations Number of iterations for applying the incongruence labeling
 #' test. Points labeled "incongruent" are ignored in subsequent iterations.
 #'
-#' @param type A character string. Either "Chlorophyll" or "Turbidity" for the
-#' appropriate CTD measurement type.
-#'
 #' @param min.depth Minimum depth above which points are excluded from the
 #' profiles. Units should match those expressed in the "depth" column of the
 #' input data.
@@ -65,7 +62,7 @@
 #' setup_example()
 #'
 #' ## Read the example casts:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #'
 #' ## Select a few samples to plot quickly:
 #' selected_files <- unique(casts$filename)[3:4]
@@ -75,8 +72,7 @@
 #' ## plots:
 #' output <- plot_profiles(
 #'   data = casts, width = 0.6, alpha = 0.001,
-#'   type = "Chlorophyll", min.depth = 1.5,
-#'   directory = tempdir(),
+#'   min.depth = 1.5, directory = tempdir(),
 #'   method = "t.student"
 #' )
 #'
@@ -87,105 +83,56 @@
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 #'
 plot_profiles <- function(data, width, alpha, iterations = 1,
-                          type = c("Chlorophyll", "Turbidity"), min.depth = 0,
-                          directory = getwd(), plots = "any",
+                          min.depth = 0, directory = getwd(), plots = "any",
                           method = c("t.student", "max.residual", "chisq",
                                      "dixon", "grubbs")) {
-  type <- match.arg(type)
+
   method <- match.arg(method)
+
   pV_sv <- pV_temp <- pV_sal <- pV_ <- pV_dens <- pV_cond <- pV_chla <-
     pV_neph <- pV_obs <- pV_turb <- NULL
+
   data <- data[data$depth > min.depth, ]
 
-  if (type == "Chlorophyll") {
-    data <- label_incongruents(
-      df1 = data, W = width, alpha = alpha,
-      iterations = iterations, type = type
-    )
+  data <- label_incongruents(
+    df1 = data, W = width, alpha = alpha, iterations = iterations
+  )
 
-    if (plots == "all") {
-      files <- unique(data$filename)
-    } else if (plots == "any") {
-      plots <- c("sv", "temp", "sal", "dens", "cond", "chla")
-      plots <- paste0("incongruent_", plots)
-      files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-                           ]$filename)
-    } else {
-      plots <- paste0("incongruent_", plots)
-      files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-                           ]$filename)
-    }
-
-    pdf(paste0(directory, "/profiles.pdf"), width = 8.3, height = 11.7)
-
-    for (f in seq_along(files)) {
-      do1 <- data[data$filename == files[f], ]
-      nms <- c(
-        "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
-        "cond", "chla"
-      )
-
-      profiles <- lapply(c("sv", "temp", "sal", "dens", "cond", "chla"),
-        draw_plot,
-        data = do1
-      )
-
-      suppressWarnings(grid.arrange(profiles[[1]], profiles[[2]], profiles[[3]],
-        profiles[[4]], profiles[[5]], profiles[[6]],
-        left = textGrob("Depth (m)", rot = 90, gp = gpar(fontsize = 13)),
-        top = textGrob(files[f], gp = gpar(fontsize = 15)),
-        nrow = 2, ncol = 3
-      ))
-    }
-
-    dev.off()
-    message(paste0("A pdf with profiles was created in directory: ", directory))
-    return(data)
-  } else if (type == "Turbidity") {
-    data <- label_incongruents(
-      df1 = data, W = width, alpha = alpha,
-      iterations = iterations, type = type
-    )
-
-    if (plots == "all") {
-      files <- unique(data$filename)
-    } else if (plots == "any") {
-      plots <- c("sv", "temp", "sal", "dens", "cond", "turb")
-      plots <- paste0("incongruent_", plots)
-      files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-                           ]$filename)
-    } else {
-      plots <- paste0("incongruent_", plots)
-      files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-                           ]$filename)
-    }
-
-    pdf(paste0(directory, "/profiles.pdf"), width = 8.3, height = 11.7)
-
-    for (f in seq_along(files)) {
-      do1 <- data[data$filename == files[f], ]
-      nms <- c(
-        "date", "time", "depth", "pressure", "sv", "temp", "sal", "dens",
-        "cond", "neph", "obs", "turb"
-      )
-
-      profiles <- lapply(c("sv", "temp", "sal", "dens", "cond", "turb"),
-        draw_plot,
-        data = do1
-      )
-
-      suppressWarnings(grid.arrange(profiles[[1]], profiles[[2]], profiles[[3]],
-        profiles[[4]], profiles[[5]], profiles[[6]],
-        left = textGrob("Depth (m)", rot = 90, gp = gpar(fontsize = 13)),
-        top = textGrob(files[f], gp = gpar(fontsize = 15)),
-        nrow = 2, ncol = 3
-      ))
-    }
-
-    dev.off()
-    message(paste0("A pdf with profiles was created in directory: ", directory))
-    return(data)
+  if (plots == "all") {
+    plots <- grep("incongruent_", colnames(data), value = TRUE)
+    files <- unique(data$filename)
+  } else if (plots == "any") {
+    plots <- grep("incongruent_", colnames(data), value = TRUE)
+    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
+    ]$filename)
+  } else {
+    plots <- grep("incongruent_", colnames(data), value = TRUE)
+    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
+    ]$filename)
   }
+
+  pdf(paste0(directory, "/profiles.pdf"), width = 8.3, height = 11.7)
+
+  for (f in seq_along(files)) {
+    do1 <- data[data$filename == files[f], ]
+
+    profiles <- lapply(gsub("incongruent_", "", plots),
+                       draw_plot,
+                       data = do1
+    )
+
+
+    suppressWarnings(grid.arrange(grobs = profiles,
+                                  left = textGrob("Depth (m)", rot = 90, gp = gpar(fontsize = 13)),
+                                  top = textGrob(files[f], gp = gpar(fontsize = 15)),
+                                  ncol = 3
+    ))
+  }
+
+  dev.off()
+  message(paste0("A pdf with profiles was created in directory: ", directory))
+
+  return(data)
 }
 
 
@@ -225,7 +172,7 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #' setup_example()
 #'
 #' ## Read the example casts:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #'
 #' ## Select the data for one file:
 #' selected_filename <- unique(casts$filename)[5]
@@ -234,7 +181,6 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #' ## Label incongruents in the data:
 #' output <- label_incongruents(
 #'   df1 = single_file, W = 1, alpha = 0.0001,
-#'   type = "Chlorophyll",
 #'   method = "t.student"
 #' )
 #'

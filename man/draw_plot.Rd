@@ -28,7 +28,7 @@ The moving average for a window length of 5 points constructed with
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## Select the data for one file:
 selected_filename <- unique(casts$filename)[5]
@@ -37,7 +37,6 @@ single_file <- casts[which(casts$filename == selected_filename), ]
 ## Label incongruents in the data:
 output <- label_incongruents(
   df1 = single_file, W = 1, alpha = 0.0001,
-  type = "Chlorophyll",
   method = "t.student"
 )
 

@@ -14,7 +14,7 @@ Sets up the files from ctdat.RData in a temporary directory to read with
 setup_example() # Saves example CTD files in a temporary directory
 
 ## These can be read as:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## To clear the temporary directory after using 'setup_example()':
 unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))

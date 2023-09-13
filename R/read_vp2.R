@@ -1,13 +1,9 @@
 #' Read .vp2 Files
 #'
-#' Read all .vp2 files in a directory given the CTD file ID and measurement
-#' type.
+#' Read all .vp2 files in a directory given the CTD file ID.
 #'
 #' @param directory A character string of the directory from which to retrieve
 #' .vp2 files.
-#'
-#' @param type A character string. Either "Chlorophyll" or "Turbidity" for the
-#' appropriate CTD measurement type.
 #'
 #' @param ID Numeric. The ID of the CTD present in each file as:
 #' "VL_ID_filenumber.vp2"
@@ -24,12 +20,12 @@
 #' setup_example()
 #'
 #' ## Read the example casts:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
 #'
-read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
+read_vp2 <- function(directory, ID) {
   files <- sort(dir(path = directory, pattern = ".vp2"))
 
   for (i in seq_along(files)) {
@@ -39,22 +35,9 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
       nms <- lns[which(lns == "[DATA]") + 1]
       nms <- strsplit(nms, split = "/|\t")
       nms <- tolower(unlist(nms))
+      nms <- gsub(" ", ".", nms)
       break
     }
-  }
-
-
-  if (type == "Chlorophyll" & any(nms == "Turbidity")) {
-    stop(
-      "Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
-      call. = FALSE)
-  } else if (type == "Turbidity" & all(nms != "Turbidity")) {
-    stop(
-      "Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
-      call. = FALSE)
-  } else if (type != "Chlorophyll" & type != "Turbidity") {
-    stop("'type' must be one of 'Chlorophyll' or 'Turbidity'",
-         call. = FALSE)
   }
 
   M <- as.data.frame(matrix(ncol = length(nms) + 3))
@@ -79,22 +62,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
           lon <- as.numeric(strsplit(lns[nlon], "=")[[1]][2])
         }
 
-        if (type == "Chlorophyll") {
-          d <- read.table(paste0(directory, "/", fn), skip = start)
-          if (length(names(d)) != length(nms)){
-            stop(
-            "Data type 'Chlorophyll' chosen for a device measuring Turbidity.",
-            call. = FALSE)
-          }
-        } else if (type == "Turbidity") {
-          d <- read.table(paste0(directory, "/", fn), skip = start)
-          if (type == "Turbidity" & length(names(d)) != length(nms)) {
-            stop(
-            "Data type 'Turbidity' chosen for a device measuring Chlorophyll.",
-            call. = FALSE)
-          }
-        }
-
+        d <- read.table(paste0(directory, "/", fn), skip = start)
         names(d) <- nms
         d$filename <- fn
         d$lat <- lat
@@ -120,7 +88,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
 #' setup_example() # Saves example CTD files in a temporary directory
 #'
 #' ## These can be read as:
-#' casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+#' casts <- read_vp2(directory = tempdir(), ID = 12345)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))

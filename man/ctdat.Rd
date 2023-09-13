@@ -19,7 +19,7 @@ Example CTD Data from a Valeport SWiFT Device.
 setup_example()
 
 ## Read the example casts:
-casts <- read_vp2(directory = tempdir(), type = "Chlorophyll", ID = 12345)
+casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 }
 \keyword{datasets}
