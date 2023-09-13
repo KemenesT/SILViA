@@ -62,122 +62,40 @@ label_incongruents <- function(df1, W, alpha, iterations = 1,
                                           "dixon", "grubbs")) {
   type <- match.arg(type)
   method <- match.arg(method)
-  qt <- sv <- temp <- sal <- dens <- cond <- chla <- neph <- obs <- turb <- NULL
   W <- W / 2
 
-  if (type == "Chlorophyll") {
-    df1 <- data.frame(df1,
-      incongruent_sv = "No", incongruent_temp = "No",
-      incongruent_sal = "No", incongruent_dens = "No",
-      incongruent_cond = "No", incongruent_chla = "No",
-      pV_sv = NA, pV_temp = NA, pV_sal = NA,
-      pV_dens = NA, pV_cond = NA, pV_chla = NA,
-      warning = NA
+  org_names <- colnames(df1)
+  tocheck <- colnames(df1)[-which(colnames(df1) %in% c("date", "time", "depth",
+                                                    "filename", "lat", "lon"))]
+  inc_new <- paste0("incongruent_", tocheck)
+  pV_new <- paste0("pV_", tocheck)
+
+  original_length <- length(colnames(df1))
+
+  df1[, seq.int(from = original_length+1,
+                by = 1, length.out = length(inc_new)*2)] <- NA
+
+  colnames(df1)[seq.int(from = original_length+1,
+                        by = 1, length.out = length(inc_new)*2)] <- c(inc_new,
+                                                                      pV_new)
+  df1$warning <- NA
+  df1[, seq.int(from = original_length+1,
+                by = 1, length.out = length(inc_new))] <- "No"
+
+  outputs <- do.call(
+    cbind.data.frame,
+    lapply(
+      tocheck,
+      run_inc_test, iterations, df1, W, alpha, method
     )
-    outputs <- do.call(
-      cbind.data.frame,
-      lapply(
-        c("sv", "temp", "sal", "dens", "cond", "chla"),
-        run_inc_test, iterations, df1, W, alpha, method
-      )
-    )
-    df1 <- data.frame(df1[, c(
-      "date", "time", "depth", "pressure", "sv", "temp",
-      "sal", "dens", "cond", "chla", "filename", "lat",
-      "lon"
-    )], outputs, warning = df1[, "warning"])
+  )
 
-    for (i in seq_len(nrow(df1))) {
-      count <- 0
-      if (df1[i, "incongruent_sv"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_temp"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_sal"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_dens"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_cond"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_chla"] == "Yes") {
-        count <- count + 1
-      }
+  df1 <- data.frame(df1[, org_names], outputs, warning = df1[, "warning"])
 
-      if (count > 2) {
-        df1[i, "warning"] <- "Yes"
-      }
-    }
+  df1$warning <- rowSums(ifelse(df1[, inc_new] == "Yes", 1, 0))
+  df1$warning <- ifelse(df1$warning > 2, "Yes", "No")
 
-    Warnings <- df1[which(df1$warning == "Yes"), ]
+  Warnings <- df1[which(df1$warning == "Yes"), ]
 
-    return(df1)
-  } else if (type == "Turbidity") {
-    df1 <- data.frame(df1,
-      incongruent_sv = "No", incongruent_temp = "No",
-      incongruent_sal = "No", incongruent_dens = "No",
-      incongruent_cond = "No", incongruent_neph = "No",
-      incongruent_obs = "No", incongruent_turb = "No",
-      pV_sv = "No", pV_temp = "No", pV_sal = "No",
-      pV_dens = "No", pV_cond = "No", pV_neph = "No",
-      pV_obs = "No", pV_turb = "No", warning = "No"
-    )
-    outputs <- do.call(
-      cbind.data.frame,
-      lapply(
-        c(
-          "sv", "temp", "sal", "dens", "cond", "neph",
-          "obs", "turb"
-        ),
-        run_inc_test, iterations, df1, W, alpha, method
-      )
-    )
-    df1 <- data.frame(
-      df1[, c(
-        "date", "time", "depth", "pressure", "sv", "temp",
-        "sal", "dens", "cond", "neph", "obs", "turb",
-        "filename", "lat", "lon"
-      )],
-      outputs,
-      warning = df1[, "warning"]
-    )
-
-    for (i in seq_len(nrow(df1))) {
-      count <- 0
-      if (df1[i, "incongruent_sv"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_temp"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_sal"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_dens"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_cond"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_neph"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_obs"] == "Yes") {
-        count <- count + 1
-      }
-      if (df1[i, "incongruent_turb"] == "Yes") {
-        count <- count + 1
-      }
-
-      if (count > 2) {
-        df1[i, "warning"] <- "Yes"
-      }
-    }
-
-    return(df1)
-  }
+  return(df1)
 }

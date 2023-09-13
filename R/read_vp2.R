@@ -38,7 +38,7 @@ read_vp2 <- function(directory, type = c("Chlorophyll", "Turbidity"), ID) {
       lns <- readLines(paste0(directory, "/", fn))
       nms <- lns[which(lns == "[DATA]") + 1]
       nms <- strsplit(nms, split = "/|\t")
-      nms <- unlist(nms)
+      nms <- tolower(unlist(nms))
       break
     }
   }

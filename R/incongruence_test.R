@@ -197,6 +197,7 @@ run_inc_test <- function(column, iterations, df1, W, alpha, method) {
         "incongruent_",
         column
       )] <- output$incongruence
+
       df1[active_df[active], paste0("pV_", column)] <- output$pV
 
       output <- df1[, c(paste0("incongruent_", column), paste0("pV_", column))]
