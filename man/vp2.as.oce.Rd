@@ -4,7 +4,7 @@
 \alias{vp2.as.oce}
 \title{Convert vp2 Cast Data to oce Object}
 \usage{
-vp2.as.oce(data, file, directory, type = c("Chlorophyll", "Turbidity"))
+vp2.as.oce(data, file, directory)
 }
 \arguments{
 \item{data}{A data-frame with .vp2 CTD data as returned by
@@ -15,9 +15,6 @@ vp2.as.oce(data, file, directory, type = c("Chlorophyll", "Turbidity"))
 \item{directory}{Directory where the raw .vp2 file corresponding to the cast
 to be converted is stored. This is necessary to extract the
 meta-data included included in the oce object.}
-
-\item{type}{A character string. Either "Chlorophyll" or "Turbidity" for the
-appropriate CTD measurement type.}
 }
 \value{
 An oce object of class "ctd" containing the data for a single .vp2
@@ -39,8 +36,7 @@ file_name <- unique(casts$filename)[1]
 cast <- casts[which(casts$filename == file_name), ]
 
 ## Convert single cast to oce object:
-object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir(),
-                     type = "Chlorophyll")
+object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir())
 
 ## To clear the temporary directory after using 'setup_example()':
 unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))

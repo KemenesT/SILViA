@@ -12,10 +12,6 @@
 #'                   to be converted is stored. This is necessary to extract the
 #'                   meta-data included included in the oce object.
 #'
-#' @param type  A character string. Either "Chlorophyll" or "Turbidity" for the
-#' appropriate CTD measurement type.
-#'
-#'
 #' @importFrom oce as.ctd
 #'
 #' @importFrom oce oceSetData
@@ -37,25 +33,17 @@
 #' cast <- casts[which(casts$filename == file_name), ]
 #'
 #' ## Convert single cast to oce object:
-#' object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir(),
-#'                      type = "Chlorophyll")
+#' object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir())
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "/", list.files(tempdir(), pattern = ".vp2")))
 #'
-vp2.as.oce <- function(data, file, directory,
-                       type = c("Chlorophyll", "Turbidity")) {
+vp2.as.oce <- function(data, file, directory) {
 
-  if (type == "Chlorophyll") {
-    nms <- c("chlorophyll")
-    lines <- readLines(paste0(directory, "/", file))[c(20, 44:52)]
-  } else if (type == "Turbidity") {
-    nms <- c("Nephelometer", "OBS", "turbidity")
-    lines <- readLines(paste0(directory, "/", file))[c(20, 44:54)]
-  } else {
-    stop("'type' must be one of 'Chlorophyll' or 'Turbidity'",
-         call. = FALSE)
-  }
+  lines <- readLines(paste0(directory, "/", file))
+  serialnumber <- gsub(".*=", "\\1",
+                       grep("serialnumber", lines, ignore.case = T, value = T))
+  lines <- lines[(which(lines == "[COLUMNS]")+1):(which(lines == "[DATA]")-2)]
 
   cast <- data[which(data$filename == file), ]
 
@@ -64,7 +52,8 @@ vp2.as.oce <- function(data, file, directory,
   getunit <- function(var){
     variable <- grep(var, lines, value = TRUE, ignore.case = TRUE)
     unit <- gsub(".*;(.+);.*", "\\1", variable)
-    if(!identical(grep(";;", unit), integer(0))) {unit <- ""}
+    if(!identical(grep(";;", unit), integer(0))) {unit <- "unknown/undefined"}
+    if(identical(variable, character(0))) {unit <- "unknown/undefined"}
     return(unit)
   }
 
@@ -77,7 +66,7 @@ vp2.as.oce <- function(data, file, directory,
     units = unlist(lapply(c("salinity", "temperature", "pressure",
                             "conductivity", "time"), getunit)),
     missingValue = NULL,
-    serialNumber = gsub(".*=", "\\1", lines[1]),
+    serialNumber = serialnumber,
     startTime = cast$time[1],
     longitude = cast$lon,
     latitude = cast$lat,
@@ -94,17 +83,13 @@ vp2.as.oce <- function(data, file, directory,
     return(object)
   }
 
-  if (type == "Chlorophyll") {
-    missing_data <- list(
-      name = c("date", "depth", "sound.velocity", "density", nms),
-      value = list(cast$date, cast$depth, cast$sound.velocity, cast$density,
-                   cast$optics.1))
-  } else if (type == "Turbidity") {
-    missing_data <- list(
-      name = c("date", "depth", "sound.velocity", "density", nms),
-      value = list(cast$date, cast$depth, cast$sound.velocity, cast$density,
-                   cast$optics.1, cast$optics.2, cast$turbidity))
-  }
+  donecols <- c("salinity", "temperature", "pressure", "conductivity", "time",
+                "filename", "lat", "lon")
+  todocols <- colnames(cast)[-which(colnames(cast) %in% donecols)]
+
+  missing_data <- list(
+    name = todocols,
+    value = as.list(cast[, todocols]))
 
   for(n in seq_along(missing_data$name)) {
     object <- add.data(object, missing_data$name[n], missing_data$value[n])
