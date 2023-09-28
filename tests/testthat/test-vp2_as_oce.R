@@ -26,12 +26,16 @@ test_that("vp2_as_oce outputs an object with all the expected components", {
 
   object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir())
 
-  units <- c("PSU", "DegC", "dBar", "mS/cm", "unknown/undefined",
-             "unknown/undefined", "m", "Ms-1", "kg/M3", "unknown/undefined")
+  units <- c(
+    "PSU", "DegC", "dBar", "mS/cm", "unknown/undefined",
+    "unknown/undefined", "m", "Ms-1", "kg/M3", "unknown/undefined"
+  )
 
-  names <- c("scan", "salinity", "temperature", "pressure", "conductivity",
-             "time", "latitude", "longitude", "date", "depth", "sound.velocity",
-             "density", "optics.1")
+  names <- c(
+    "scan", "salinity", "temperature", "pressure", "conductivity",
+    "time", "latitude", "longitude", "date", "depth", "sound.velocity",
+    "density", "optics.1"
+  )
 
   expect_true(length(object@metadata$units) == 10)
   expect_identical(object@metadata$units, units)
@@ -46,13 +50,17 @@ test_that("vp2_as_oce outputs an object with all the expected components", {
 
   object <- vp2.as.oce(data = cast, file = file_name, directory = tempdir())
 
-  units <- c("PSU", "DegC", "dBar", "mS/cm", "unknown/undefined",
-             "unknown/undefined", "m", "Ms-1", "kg/M3", "unknown/undefined",
-             "unknown/undefined", "ntu")
+  units <- c(
+    "PSU", "DegC", "dBar", "mS/cm", "unknown/undefined",
+    "unknown/undefined", "m", "Ms-1", "kg/M3", "unknown/undefined",
+    "unknown/undefined", "ntu"
+  )
 
-  names <- c("scan", "salinity", "temperature", "pressure", "conductivity",
-             "time", "latitude", "longitude", "date", "depth", "sound.velocity",
-             "density", "optics.1", "optics.2", "turbidity")
+  names <- c(
+    "scan", "salinity", "temperature", "pressure", "conductivity",
+    "time", "latitude", "longitude", "date", "depth", "sound.velocity",
+    "density", "optics.1", "optics.2", "turbidity"
+  )
 
   expect_true(length(object@metadata$units) == 12)
   expect_identical(object@metadata$units, units)

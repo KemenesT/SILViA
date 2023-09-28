@@ -30,7 +30,8 @@ read_vp2 <- function(directory, ID) {
 
   for (i in seq_along(files)) {
     fn <- files[i]
-    if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID) {
+    if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" &
+        substr(fn, 4, 8) == ID) {
       lns <- readLines(paste0(directory, "/", fn))
       nms <- lns[which(lns == "[DATA]") + 1]
       nms <- strsplit(nms, split = "/|\t")
@@ -49,11 +50,13 @@ read_vp2 <- function(directory, ID) {
     lns <- readLines(paste0(directory, "/", fn))
     nlat <- grep("latitude", lns, ignore.case = TRUE)
     nlon <- grep("longitude", lns, ignore.case = TRUE)
-    start <- which(lns == "[DATA]")+2
-    if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" & substr(fn, 4, 8) == ID){
-      if (length(lns) > start+2) {
+    start <- which(lns == "[DATA]") + 2
+    if (substr(fn, nchar(fn) - 2, nchar(fn)) == "vp2" &
+        substr(fn, 4, 8) == ID) {
+      if (length(lns) > start + 2) {
         if (suppressWarnings(
-          is.na(as.numeric(strsplit(lns[nlat], "=")[[1]][2])))
+          is.na(as.numeric(strsplit(lns[nlat], "=")[[1]][2]))
+        )
         ) {
           lat <- as.numeric(strsplit(gsub(",", ".", lns[nlat]), "=")[[1]][2])
           lon <- as.numeric(strsplit(gsub(",", ".", lns[nlon]), "=")[[1]][2])

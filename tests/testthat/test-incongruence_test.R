@@ -34,15 +34,15 @@ test_that("the incongruence test returns expected structure", {
   setup_example()
   casts <- read_vp2(directory = tempdir(), ID = 12345)
   casts <- data.frame(casts,
-                      incongruent_pressure = "No", incongruent_sound.velocity = "No",
-                      incongruent_temperature = "No", incongruent_salinity = "No",
-                      incongruent_denssity = "No", incongruent_conductivity = "No",
-                      incongruent_optics.1 = "No",
-                      pV_pressure = NA, pV_sound.velocity = NA,
-                      pV_temperature = NA, pV_salinity = NA,
-                      pV_denssity = NA, pV_conductivity = NA,
-                      pV_optics.1 = NA,
-                      warning = NA
+    incongruent_pressure = "No", incongruent_sound.velocity = "No",
+    incongruent_temperature = "No", incongruent_salinity = "No",
+    incongruent_denssity = "No", incongruent_conductivity = "No",
+    incongruent_optics.1 = "No",
+    pV_pressure = NA, pV_sound.velocity = NA,
+    pV_temperature = NA, pV_salinity = NA,
+    pV_denssity = NA, pV_conductivity = NA,
+    pV_optics.1 = NA,
+    warning = NA
   )
 
   output <- run_inc_test(
@@ -65,15 +65,15 @@ test_that("all outlier detection methods work", {
   setup_example()
   casts <- read_vp2(directory = tempdir(), ID = 12345)
   casts <- data.frame(casts,
-                      incongruent_pressure = "No", incongruent_sound.velocity = "No",
-                      incongruent_temperature = "No", incongruent_salinity = "No",
-                      incongruent_denssity = "No", incongruent_conductivity = "No",
-                      incongruent_optics.1 = "No",
-                      pV_pressure = NA, pV_sound.velocity = NA,
-                      pV_temperature = NA, pV_salinity = NA,
-                      pV_denssity = NA, pV_conductivity = NA,
-                      pV_optics.1 = NA,
-                      warning = NA
+    incongruent_pressure = "No", incongruent_sound.velocity = "No",
+    incongruent_temperature = "No", incongruent_salinity = "No",
+    incongruent_denssity = "No", incongruent_conductivity = "No",
+    incongruent_optics.1 = "No",
+    pV_pressure = NA, pV_sound.velocity = NA,
+    pV_temperature = NA, pV_salinity = NA,
+    pV_denssity = NA, pV_conductivity = NA,
+    pV_optics.1 = NA,
+    warning = NA
   )
 
   output <- run_inc_test(

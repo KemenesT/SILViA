@@ -61,13 +61,11 @@ incongruence_test <- function(point_time, column, subdf, W,
   }
 
   if (method == "t.student") {
-
-    if(ismax) {
-
+    if (ismax) {
       S <- sd(subdf[window2, column])
       Mean <- mean(subdf[window2, column])
       Tv <- abs(subdf[u, column] - Mean) / S
-      pV <- pt(q = Tv, df = length(window2), lower.tail = FALSE)*2
+      pV <- pt(q = Tv, df = length(window2), lower.tail = FALSE) * 2
 
       # test.result <- t.test(x = subdf[window1, column])
       # pV <- test.result$p.value
@@ -83,20 +81,16 @@ incongruence_test <- function(point_time, column, subdf, W,
       pV <- NA
       incongruence <- "No"
     }
-
   } else if (method == "max.residual") {
-
-    if(ismax) {
+    if (ismax) {
       pV <- NA
       incongruence <- "Yes"
     } else {
       pV <- NA
       incongruence <- "No"
     }
-
   } else if (method == "chisq") {
-
-    if(ismax) {
+    if (ismax) {
       test.result <- chisq.out.test(x = subdf[window1, column])
       pV <- test.result$p.value
       if (pV < alpha) {
@@ -108,10 +102,8 @@ incongruence_test <- function(point_time, column, subdf, W,
       pV <- NA
       incongruence <- "No"
     }
-
   } else if (method == "dixon") {
-
-    if(ismax) {
+    if (ismax) {
       test.result <- dixon.test(x = subdf[window1, column])
       pV <- test.result$p.value
       if (pV < alpha) {
@@ -123,10 +115,8 @@ incongruence_test <- function(point_time, column, subdf, W,
       pV <- NA
       incongruence <- "No"
     }
-
   } else if (method == "grubbs") {
-
-    if(ismax) {
+    if (ismax) {
       test.result <- grubbs.test(x = subdf[window1, column])
       pV <- test.result$p.value
       if (pV < alpha) {

@@ -55,7 +55,7 @@ setup_example()
 
 ## Read the example casts:
 casts <- read_vp2(directory = tempdir(), ID = 12345)
-casts <- casts[which(casts$filename \%in\% unique(casts$filename)[1:2]),]
+casts <- casts[which(casts$filename \%in\% unique(casts$filename)[1:2]), ]
 
 ## Label incongruents in the imported data:
 output <- label_incongruents(

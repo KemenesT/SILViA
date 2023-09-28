@@ -41,7 +41,7 @@
 #'
 #' ## Read the example casts:
 #' casts <- read_vp2(directory = tempdir(), ID = 12345)
-#' casts <- casts[which(casts$filename %in% unique(casts$filename)[1:2]),]
+#' casts <- casts[which(casts$filename %in% unique(casts$filename)[1:2]), ]
 #'
 #' ## Label incongruents in the imported data:
 #' output <- label_incongruents(
@@ -53,31 +53,38 @@
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
 #'
 label_incongruents <- function(df1, W, alpha, iterations = 1,
-                               method = c("t.student", "max.residual", "chisq",
-                                          "dixon", "grubbs")) {
-
+                               method = c(
+                                 "t.student", "max.residual", "chisq",
+                                 "dixon", "grubbs"
+                               )) {
   method <- match.arg(method)
   W <- W / 2
 
   org_names <- colnames(df1)
-  tocheck <- colnames(df1)[-which(colnames(df1) %in% c("date", "time", "depth",
-                                                    "filename", "lat", "lon"))]
+  tocheck <- colnames(df1)[-which(colnames(df1) %in% c(
+    "date", "time", "depth",
+    "filename", "lat", "lon"
+  ))]
   inc_new <- paste0("incongruent_", tocheck)
   pV_new <- paste0("pV_", tocheck)
 
   original_length <- length(colnames(df1))
 
-  df1[, seq.int(from = original_length+1,
-                by = 1, length.out = length(inc_new)*2)] <- NA
+  df1[, seq.int(
+    from = original_length + 1,
+    by = 1, length.out = length(inc_new) * 2
+  )] <- NA
 
-  colnames(df1)[seq.int(from = original_length+1,
-                        by = 1, length.out = length(inc_new)*2)] <- c(inc_new,
-                                                                      pV_new)
+  colnames(df1)[seq.int(
+    from = original_length + 1,
+    by = 1, length.out = length(inc_new) * 2
+  )] <- c(
+    inc_new,
+    pV_new
+  )
   df1$warning <- NA
-  df1[, grep("incongruent_", colnames(df1), value = T)] <- "No"
-  df1[, grep("pV_", colnames(df1), value = T)] <- NA
-  df1[, grep("pV_", colnames(df1), value = T)] <-
-    sapply(df1[, grep("pV_", colnames(df1), value = T)], as.numeric)
+  df1[, grep("incongruent_", colnames(df1), value = TRUE)] <- "No"
+  df1[, grep("pV_", colnames(df1), value = TRUE)] <- NA
 
   outputs <- do.call(
     cbind.data.frame,

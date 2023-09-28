@@ -66,7 +66,7 @@
 #'
 #' ## Select a few samples to plot quickly:
 #' selected_files <- unique(casts$filename)[3:4]
-#' casts <- casts[which(casts$filename %in% selected_files),]
+#' casts <- casts[which(casts$filename %in% selected_files), ]
 #'
 #' ## Label incongruents in the imported data and create a pdf with appropriate
 #' ## plots:
@@ -84,9 +84,10 @@
 #'
 plot_profiles <- function(data, width, alpha, iterations = 1,
                           min.depth = 0, directory = getwd(), plots = "any",
-                          method = c("t.student", "max.residual", "chisq",
-                                     "dixon", "grubbs")) {
-
+                          method = c(
+                            "t.student", "max.residual", "chisq",
+                            "dixon", "grubbs"
+                          )) {
   method <- match.arg(method)
 
   pV_sv <- pV_temp <- pV_sal <- pV_ <- pV_dens <- pV_cond <- pV_chla <-
@@ -103,12 +104,10 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
     files <- unique(data$filename)
   } else if (plots == "any") {
     plots <- grep("incongruent_", colnames(data), value = TRUE)
-    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-    ]$filename)
+    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)), ]$filename)
   } else {
     plots <- grep("incongruent_", colnames(data), value = TRUE)
-    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)),
-    ]$filename)
+    files <- unique(data[which(apply(data[plots] == "Yes", 1, any)), ]$filename)
   }
 
   pdf(paste0(directory, "/profiles.pdf"), width = 8.3, height = 11.7)
@@ -117,15 +116,16 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
     do1 <- data[data$filename == files[f], ]
 
     profiles <- lapply(gsub("incongruent_", "", plots),
-                       draw_plot,
-                       data = do1
+      draw_plot,
+      data = do1
     )
 
 
-    suppressWarnings(grid.arrange(grobs = profiles,
-                                  left = textGrob("Depth (m)", rot = 90, gp = gpar(fontsize = 13)),
-                                  top = textGrob(files[f], gp = gpar(fontsize = 15)),
-                                  ncol = 3
+    suppressWarnings(grid.arrange(
+      grobs = profiles,
+      left = textGrob("Depth (m)", rot = 90, gp = gpar(fontsize = 13)),
+      top = textGrob(files[f], gp = gpar(fontsize = 15)),
+      ncol = 3
     ))
   }
 
@@ -185,7 +185,7 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 #' )
 #'
 #' ## Plot a single profile:
-#' draw_plot(var = "chla", data = output)
+#' draw_plot(var = "optics.1", data = output)
 #'
 #' ## To clear the temporary directory after using 'setup_example()':
 #' unlink(paste0(tempdir(), "\\", list.files(tempdir(), pattern = ".vp2")))
@@ -193,11 +193,15 @@ plot_profiles <- function(data, width, alpha, iterations = 1,
 draw_plot <- function(var, data) {
   y <- depth <- NULL
 
-  if (identical(which(data[paste0("incongruent_",
-                                  var)] == "Yes"), integer(0))) {
+  if (identical(which(data[paste0(
+    "incongruent_",
+    var
+  )] == "Yes"), integer(0))) {
     d <- data
+    data <- data[-which(data[paste0("incongruent_", var)] == "No"), ]
   } else {
     d <- data[-which(data[paste0("incongruent_", var)] == "Yes"), ]
+    data <- data[-which(data[paste0("incongruent_", var)] == "No"), ]
   }
 
   sel <- as.numeric(order(d$time))
@@ -218,11 +222,11 @@ draw_plot <- function(var, data) {
   profile <- ggplot() +
     geom_point(
       aes(x = data[sel2, var], y = -data[sel2, "depth"]),
-      color = "red", pch = 16, cex = .6
+      color = "red", pch = 18, cex = 2
     ) +
     geom_point(
-      aes(x = d[sel2, var], y = -d[sel2, "depth"]),
-      color = "black", pch = 16, cex = .6
+      aes(x = d[sel, var], y = -d[sel, "depth"]),
+      color = "black", pch = 16, cex = 1
     ) +
     geom_path(aes(x = moving_results$x, y = moving_results$y), color = "blue") +
     labs(title = var) +

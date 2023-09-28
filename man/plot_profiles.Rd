@@ -77,7 +77,7 @@ casts <- read_vp2(directory = tempdir(), ID = 12345)
 
 ## Select a few samples to plot quickly:
 selected_files <- unique(casts$filename)[3:4]
-casts <- casts[which(casts$filename \%in\% selected_files),]
+casts <- casts[which(casts$filename \%in\% selected_files), ]
 
 ## Label incongruents in the imported data and create a pdf with appropriate
 ## plots:

@@ -41,7 +41,7 @@ output <- label_incongruents(
 )
 
 ## Plot a single profile:
-draw_plot(var = "chla", data = output)
+draw_plot(var = "optics.1", data = output)
 
 ## To clear the temporary directory after using 'setup_example()':
 unlink(paste0(tempdir(), "\\\\", list.files(tempdir(), pattern = ".vp2")))
