@@ -222,7 +222,7 @@ draw_plot <- function(var, data) {
   profile <- ggplot() +
     geom_point(
       aes(x = data[sel2, var], y = -data[sel2, "depth"]),
-      color = "red", pch = 18, cex = 2
+      fill = "yellow", pch = 23, cex = 2.5
     ) +
     geom_point(
       aes(x = d[sel, var], y = -d[sel, "depth"]),
